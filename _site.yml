@@ -1,0 +1,42 @@
+output_dir: "docs"
+name: "Estatística experimental"
+navbar:
+  color: "#008000"
+  title: "Estatística experimental"
+  type:
+  toc: true
+  left:
+    - text: "Sobre"
+      href: index.html
+    - text: "Introdução"
+      href: intro.html
+    - text: "Capítulos"
+      menu:
+       - text: "Delineamento inteiramente casualizado"
+         href: dic.html
+       - text: "Comparação de médias"
+         href: cm.html
+       - text: "Regressão polinomial"
+         href: rp.html
+       - text: "Pressuposições da Anova"
+         href: anova.html
+       - text: "Delineamento blocos casualizados"
+         href: dbc.html
+       - text: "Delineamento quadrado latino"
+         href: dql.html
+       - text: "Esquema fatorial de tratamentos"
+         href: fat.html
+       - text: "Parcelas subdivididas"
+         href: parcs.html
+       - text: "Grupos de experimentos"
+         href: grups.html
+    - text: "Atividades"
+      href: https://davivitti.shinyapps.io/atividades/
+    - text: "Dúvidas?"
+      href:  https://forms.gle/LQ6mNE4DoR1Fk6px6
+output:
+   html_document:
+    toc: true
+    toc_float: true
+    theme: "flatly"
+

@@ -1,0 +1,478 @@
+---
+title: "Pressuposições da ANOVA"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{css, echo = FALSE}
+body {
+     text-align: justify;
+}
+
+```
+
+# Fundamentos
+
+Quais são as pressuposições para a realização da Análise de Variância?
+
+* Os erros devem seguir uma distribuição normal;
+* Os erros devem ser independentes;
+* Os erros devem apresentar variância constante, ou seja, homogeneidade de variâncias;
+* O modelo deve ser aditivo
+
+
+# Exemplo
+
+|      Um pesquisador pretende comparar quatro variedades de pêssego quanto ao enraizamento de estacas. Para tanto, realizou um experimento de acordo com o delineamento inteiramente casualizado com cinco repetições, sendo cada parcela um vaso com vinte estacas. Passado o tempo necessário, o pesquisador anotou o número de estacas enraizadas, apresentado na Tabela a seguir.
+
+Tabela 1: Número de estacas enraizadas por variedade de pêssego.
+
+| Variedades | REP. 1 | REP. 2 | REP. 3 | REP. 4 | REP. 5 | Total | Média | Variância |
+|------------|--------|--------|--------|--------|--------|-------|-------|-----------|
+| A          | 2      | 2      | 1      | 1      | 0      | 6     | 1,2   | 0,7       |
+| B          | 1      | 0      | 0      | 1      | 1      | 3     | 0,6   | 0,3       |
+| C          | 12     | 10     | 14     | 17     | 11     | 64    | 12,8  | 7,7       |
+| D          | 7      | 9      | 15     | 8      | 10     | 49    | 9,8   | 9,7       |
+
+
+```{r, echo=FALSE}
+
+dadospessego <- data.frame(Variedadepessego = factor(rep(1:4,
+                                                 each = 5)), 
+                           estacasenraizadas = c(2, 2, 1, 1, 0,
+                                                 1, 0, 0, 1, 1,
+                                                 12, 10, 14, 17, 11,
+                                                 7, 9, 15, 8, 10))
+
+
+
+```
+
+
+
+|     Esse experimento seguiu um delineamento inteiramente casualuzado, portanto segue o seguinte modelo:
+
+\begin{equation}
+y_{ij} = \mu + \tau_i + e_{ij} = \mu_i + e_{ij} 
+
+\end{equation}
+
+
+em que:
+
+- $y_{ij}$ é o valor observado na j-ésima repetição do iésimo tratamento, com: 
+ - $i = 1, ... , I$ e 
+ - $j = 1, ... , n_i$
+  
+- $\mu$ é uma constante inerente a todas as observações, geralmente a média geral,
+
+- $\tau_i$ é o efeito do iésimo tratamento,
+
+- $e_{ij}$ é o erro experimental, tal que $e_{ij} \overset{iid}{\sim}  N(0,\sigma^2)$.
+
+## Análise de resíduos
+
+Para obter o valor predito do resíduo.
+
+\begin{equation}
+y_{ij} = \mu_i + e_{ij}  
+
+\end{equation}
+
+$$ e_{ij} = \mu_i - y_{ij} $$ 
+Resíduos Padronizados ($z_{ij}$) e Resíduos estudentizados ($d_{ij}$)
+
+Observações discrepantes e aparente
+homogeneidade/heterogeneidade de variâncias.
+
+$$z_{ij} = \displaystyle{\frac{e_{ij}}{\sqrt{\text{QM}_{\text{Resíduo}}}}}$$
+
+$$d_{ij} = \displaystyle{\frac{e_{ij}}{\sqrt{(1-1/J)\text{QM}_{\text{Resíduo}}}}}$$
+
+## Observações discrepantes (atípicas)
+
+Observações discrepantes são valores que se afastam muito do esperado para a variável.
+
+Avaliação gráfica:
+
+Alguns possíveis gráficos:
+
+* Resíduos estudentizados (ou padronizados) versus Tratamentos
+* Gráfico de caixas dos resíduos estudentizados (ou padronizados)
+
+
+
+```{r, echo=FALSE}
+library(ggplot2)
+ggplot(dadospessego,
+       aes(x = Variedadepessego,
+           y = estacasenraizadas)) +
+  geom_point(position = position_jitter(w = 0.2, h = 0)) +
+  theme_bw() +
+  ylab("Número de estacas enraizadas") +
+  xlab("Variedade")
+```
+
+```{r, echo=FALSE}
+modelopessego <- lm(estacasenraizadas ~ Variedadepessego, dadospessego)
+
+(respessego <- residuals(modelopessego)) # resíduos simples
+(res_Studpessego <- rstandard(modelopessego)) # resíduos estudentizados
+
+```
+
+
+Observações:
+
+* 95% dos resíduos devem pertencer ao intervalo (-2,2);
+
+* Valores não pertencentes ao intervalo (-3,3) podem ser classificados como discrepantes;
+
+* Não podemos excluir observações discrepantes antes de conversar com o pesquisador, pois pode ter ocorrido algum erro de tabulação ou a observação pode indicar uma característica importante associada ao respectivo tratamento;
+
+
+### boxplot residuos estudentizados
+
+```{r}
+boxplot(res_Studpessego
+)
+```
+
+
+São observados dois valores discrepantes para os resíduos, quando esperada a normalidade dos erros. Logo, não se observa 95% dos resíduos entre -2 e 2, entretanto 100% destes estão entre -3 e 3.
+
+
+### gráfico de pontos 
+
+Observa-se que os dois valores discrepantes estão relacionados às
+variedades C e D. A dispersão dos resíduos por tratamento será
+discutida posteriormente.
+
+```{r, echo=FALSE}
+library(ggplot2)
+ggplot(dadospessego,
+       aes(x = Variedadepessego,
+           y = res_Studpessego)) +
+  geom_point(position = position_jitter(w = 0.2, h = 0)) +
+  theme_bw() +
+  ylab("Resíduos studentizados") +
+  xlab("Variedade")
+```
+
+
+
+# Independência dos Erros
+
+Até certo ponto, a independência dos erros é garantida pelo princípio da casualização. Entretanto, devemos “verificá-la” nos casos em que poderiam existir correlações entre as observações;
+
+* observações no mesmo indivíduos/parcela ao longo do tempo;
+
+* observações na mesma parcela em profundidades diferentes;
+
+* observações de indivíduos agrupados, como por exemplo cobaias em uma mesma gaiola. 
+
+
+# Homogeneidade de Variâncias
+
+* A pressuposição de homogeneidade de variâncias é a mais importante a ser atendida.
+
+Gráficos
+
+* Resíduos estudentizados versus Tratamentos
+* Resíduos estudentizados versus Valores preditos (y˜ij)
+
+Testes de hipóteses
+
+* Teste de Hartley (F máximo)
+* Teste de Levene
+
+grafico pontos homogeneidade 
+
+
+```{r, echo=FALSE}
+library(ggplot2)
+ggplot(dadospessego,
+       aes(x = Variedadepessego,
+           y = res_Studpessego)) +
+  geom_point(position = position_jitter(w = 0.2, h = 0)) +
+  theme_bw() +
+  ylab("Resíduos studentizados") +
+  xlab("Variedade")
+```
+
+Observa-se que as dispersões dos resíduos estudentizados associados
+às variedades A e B são menores do que as dispersões dos resíduos
+estudentizados associados às variedades C e D, aparentemente.
+
+
+Gráfico dos Resíduos versus Valores Preditos
+
+```{r}
+ggplot( ,
+       aes(x = fitted(modelopessego),
+           y = res_Studpessego)) + 
+  geom_point() + 
+  theme_bw () + 
+  geom_hline(yintercept = 0) + 
+  ylab("Resíduos estudentizados") + 
+  xlab("Valores esperados (médias)")
+
+```
+
+
+## Teste de hipóteses: Teste de Hartley
+
+$$H0 : \text{Há homogeneidade de variâncias}$$
+$$Ha : \text{Não há homogeneidade de variâncias}$$
+
+Estatística do teste:
+$$F\text{max} = \frac{S^2_{max}}{S^2_{min}}$$
+
+Rejeita-se H0, ao nível 100 × α% de significância, se Fmax ≥ Fmaxtab(α,ν1,ν2), em que ν1 é o número de graus de liberdade do numerador e ν2 é o número de graus de liberdade do denominador da estatística Fmax .
+
+
+
+## Teste de hipóteses: Teste de Levene (1960)
+
+$$H0 : \text{Há homogeneidade de variâncias}$$
+$$Ha : \text{Não há homogeneidade de variâncias}$$
+Estatística do teste:
+
+1. Ajusta-se o modelo yij = µ + τi + eij = µi + eij e obtêm-se os valores preditos para os erros, ˜eij .
+
+2. Realiza-se a ANOVA para |˜eij |, de acordo com o modelo |˜eij | = ν + γi + ij .
+
+3. Em caso de efeito significativo de tratamentos, ao nível 100 × α% de significância, há evidências de heterogeneidade de variâncias.
+
+```{r}
+anova(lm(abs(respessego) ~ Variedadepessego, dadospessego))
+
+```
+
+Como o valor-p = 0,06786 > 0,05 = α, considerando-se o nível de
+5% de significância não rejeitamos H0. Logo, não há evidências para afirmarmos que as variâncias não são homogêneas.
+
+
+
+
+# Normalidade dos Erros
+
+Assim como para a verificação da homogeneidade de variâncias, podem ser utilizados gráficos e testes para a verificação da pressuposição a respeito da normalidade dos erros.
+
+Gráficos: 
+
+* Gráfico quantil-quantil
+* Half normal plot (hnp) com envelope de simulação
+* Histograma
+* Gráfico de caixas
+
+Testes de hipóteses:
+
+* Shapiro-Wilk
+* Kolmogorov-Smirnov
+* Qui-quadrado
+* entre outros
+
+
+## Gráfico quantil-quantil
+
+```{r}
+qqnorm(res_Studpessego)
+qqline(res_Studpessego, col=2)
+```
+
+Observa-se o afastamento de dois pontos da reta que passa pelos pontos (Q1esp , Q1obs ) e (Q3esp , Q3obs ). Desse modo, espera-se que os erros não sigam uma distribuição normal.
+
+Gráfico half normal plot com envelope de simulação
+
+Atkinson (1985) propôs a adição de um envelope simulado, a partir dos seguintes passos: 
+
+1. Ajuste um modelo a um conjunto de dados e obtenha d(i), valores absolutos ordenados de uma certa estatística de diagnóstico (resíduos, hii, etc.);
+
+2. Simule 19 amostras da variável resposta usando as estimativas obtidas após o ajuste do modelo e os mesmos valores para as variáveis explanatórias;
+
+3. Ajuste o modelo a cada uma das 19 amostras e calcule os valores absolutos ordenados da estatística de diagnóstico de  interesse, d∗j(i), j = 1, . . . , 19, i = 1, . . . , n.
+
+4. Para cada i, calcule a média, o mínimo e o máximo d∗j(i)
+
+5. Construa um gráfico para as quantidades calculadas no item anterior e d(i) versus zi (quantil esperado).
+
+## Gráfico quantil-quantil com envelope simulado
+
+```{r}
+library(hnp)
+hnp(modelopessego,
+    print.on = TRUE)
+```
+
+É aceitável que pelo menos 95% dos pontos pertençam ao intervalo
+de confiança gerado. Para o exemplo, tem-se 30% destes foram do
+intervalo. Assim, é esperado que os erros não sigam uma
+distribuiçãonormal.
+
+
+## Teste de hipóteses: Shapiro-Wilk (1965)
+$$H0 : \text{Os erros seguem uma distribuição normal}$$
+$$Ha : \text{Os erros não seguem uma distribuição normal}$$
+
+$$ W = \frac{(\sum_{i=1}^n a_iy_{(i)})^2}{\sum_{i=1}^n(y_i-y)^2} $$
+
+em que y(i) representa a i-ésima estatística de ordem e os coeficientes ai são pesos ótimos para o estimador de mínimos quadrados ponderados dos desvios-padrões para uma população normal.
+
+```{r}
+shapiro.test(res_Studpessego)
+```
+
+Como o valor-p = 0,02209 < 0,05 = α, considerando-se o nível de 5% de significância, rejeitamos H0. Logo, há evidências para afirmarmos que os erros não seguem uma distribuição normal.
+
+
+# Transformação dos dados
+
+Se alguma pressuposição nao for atendida é possivel realizar a transformação dos dados. 
+
+Como visto, uma alternativa para os casos em que alguma(s) das pressuposições não é(são) atendida(s) é a transformação dos dados. 
+Vejamos, agora, possíveis casos para o gráfico dos resíduos versus os valores preditos y˜ij , como ferramenta para diagnóstico preliminar.
+
+
+## Tranformação Box-Cox (1964)
+
+* y*= logy se $\lambda$=0
+
+* y*= $y^\lambda$ se $\lambda$ $\neq$ 0
+
+
+$\lambda$|$Transformação$ |
+---------|--------------|
+$-1$|$ 1/(y+0,5)$
+$-0,5$|$1/{\sqrt{(y+0,5)}}$
+$0$|$ log(y+0,5)$
+$0,5$| $\sqrt{y+0,5}$
+$1$|$nenhuma$
+
+
+Após realizar a transformação dos dados, deve-se verificar novamente as pressuposições da análise de variância. Caso sejam atendidas, pode-se prosseguir com a análise, lembrando de realizar a transformação inversa ao final.
+
+
+```{r}
+library(MASS)
+boxcox(dadospessego$estacasenraizadas+0.5 ~ dadospessego$Variedadepessego, 
+       ylab= "logaritmos da verossimilhança")
+```
+
+Observe que o valor 1 não pertence ao intervalo de confiança a 95% para λ, porém, o valor 0,5 pertence, sendo este o valor indicado de λ.
+
+
+### Análise dos dados transformados
+
+```{r}
+#dadospessego$estacasenraizadast <-  (estacasenraizadas+0.5)^0.5
+#modelotransformado <- lm(estacasenraizadast ~ Variedadepessego, dadospessego)
+```
+
+#### Normalidade dos erros
+
+```{r}
+#qqnorm(rstandard(modelotransformado), xlab= "Quantis da distribuição normal", ylab= "Resíduos estudentizados")
+#qqline(rstandard(modelotransformado), col=2)
+```
+
+
+Com os dados transformados e novo modelo ajustado, tem-se que 95% dos resíduos encontram-se entre -2 e 2 e, os pontos não apresentam grande afastamento da reta, o que indica possível normalidade dos erros.
+
+
+```{r}
+library(hnp)
+#hnp(modelotransformado, print.on = TRUE)
+```
+
+
+Com os dados transformados e novo modelo ajustado, tem-se que a maioria dos pontos pertencem ao envelope simulado, indicando possível normalidade dos erros. 
+
+
+```{r}
+#shapiro.test(rstandard(modelotransformado))
+```
+
+
+Como o valor-p = 0,8943 > 0,05 = α, considerando-se o nível de 5% de significância, não rejeitamos H0. Logo, há evidências para afirmarmos que os erros seguem uma distribuição normal.
+
+#### Homogeneidade de Variâncias
+
+```{r}
+#ggplot(dadospessego,
+  #      aes(x = Variedadepessego,
+  #          y = rstandard(modelotransformado))) + 
+  # geom_point() +
+  # geom_hline(yintercept = 0) +
+  # theme_bw() + 
+  # ylab("Resíduos estudentizados") + 
+  # xlab("Variedade")
+
+
+```
+
+Aparentemente, as dispersões dos resíduos por tratamento são semelhantes.
+
+```{r}
+# levene.test(rstandard(modelotransformado), dadospessego$Variedadepessego, location = "mean")
+```
+
+Como o valor-p = 0,9258 > 0,05 = α, considerando-se o nível de 5% de significância, não rejeitamos H0. Logo, há evidências para afirmarmos que há homogeneidade de variâncias dos erros.
+
+
+```{r}
+# ggplot(dadospessego,
+#        aes(x = fitted(modelotransformado),
+#            y = rstandard(modelotransformado))) + 
+#   geom_point() +
+#   geom_hline(yintercept = 0) +
+#   theme_bw () + 
+#   ylab("Resíduos Estudentizados") + 
+#   xlab(" Valores esperados (médias0")
+```
+
+
+Agora, aparentemente, há um leve aumento na dispersão dos resíduos conforme o valor predito aumenta.
+
+```{r}
+# boxcox(modelotransformado, ylab="logaritmo da verossimilhança")
+```
+
+
+Quando utilizados os dados transformados, verifica-se que o valor 1 pertence ao intervalo de confiança para λ. Desse modo, nova transformação não é indicada.
+
+Atendidas as pressuposiões para a realização da análise de variância, considerando-se os dados transformados, temos:
+
+```{r}
+# anova(modelotransformado)
+```
+
+Como o valor-p = 4, 623 × 10−9 < 0, 05 = α, considerando o nível de 5% de significância, rejeitamos H0. Desse modo, há evidências para afirmarmos que pelo menos um contraste de médias difere de zero.
+
+```{r}
+# library(ExpDes.pt)
+# with(dadospessego,
+#      dic(Variedadepessego,
+#          estacasenraizadast))
+
+```
+
+Grupos| Tratamentos| Médias|
+-|-|-|
+a|C|3,63|
+a|D|3,18|
+b|A|1,26|
+b|B|1,01|
+
+A partir do teste de Tukey, ao nível de 5% de significância, há evidências para afirmarmos que as médias para as variedades C e D diferem das médias paras as variedades A e B, e as demais médias não diferem entre si.
+
+
+
+
+
+Faça o upload da resolução e tire suas [aqui](https://forms.gle/LQ6mNE4DoR1Fk6px6)

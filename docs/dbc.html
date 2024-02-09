@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Delineamento em blocos casualizados</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Estatística experimental</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Sobre</a>
+</li>
+<li>
+  <a href="intro.html">Introdução</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Capítulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="dic.html">Delineamento inteiramente casualizado</a>
+    </li>
+    <li>
+      <a href="cm.html">Comparação de médias</a>
+    </li>
+    <li>
+      <a href="rp.html">Regressão polinomial</a>
+    </li>
+    <li>
+      <a href="anova.html">Pressuposições da Anova</a>
+    </li>
+    <li>
+      <a href="dbc.html">Delineamento blocos casualizados</a>
+    </li>
+    <li>
+      <a href="dql.html">Delineamento quadrado latino</a>
+    </li>
+    <li>
+      <a href="fat.html">Esquema fatorial de tratamentos</a>
+    </li>
+    <li>
+      <a href="parcs.html">Parcelas subdivididas</a>
+    </li>
+    <li>
+      <a href="grups.html">Grupos de experimentos</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://davivitti.shinyapps.io/atividades/">Atividades</a>
+</li>
+<li>
+  <a href="https://forms.gle/LQ6mNE4DoR1Fk6px6">Dúvidas?</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Delineamento em blocos casualizados</h1>
+
+</div>
+
+
+<style type="text/css">
+body {
+     text-align: justify;
+}
+
+</style>
+<div id="fundamentos" class="section level1">
+<h1>Fundamentos</h1>
+<div class="line-block">     O delineamento casualizado em blocos (dbc)
+leva em consideração os três princípios básicos da experimentação:
+repetição, casualização e controle local.</div>
+<div class="line-block">  Para realizar o dcb deve-se repartir a área
+experimental heterogênea e sub áreas homogêneas.</div>
+<div class="line-block">     Se cada bloco receber todos os tratamentos
+chama-se de blocos completos, caso algum bloco não receba todos os
+tratamentos chama-se de blocos imcompletos.</div>
+<div id="exemplo-granja-de-suínos" class="section level2">
+<h2>Exemplo: granja de suínos</h2>
+<div class="line-block">     Com o objetivo de avaliar o efeito de
+quatro rações, A, B, C e D, sobre o ganho de peso de animais um
+pesquisador dispunha do 12 animais com pesos diferentes.</div>
+<div class="float">
+<img src="figs/pig01.png" style="width:50.0%"
+alt="Experimentação animal" />
+<div class="figcaption">Experimentação animal</div>
+</div>
+<div class="float">
+<img src="figs/pig02.jpg" style="width:50.0%"
+alt="Experimentação animal blocos" />
+<div class="figcaption">Experimentação animal blocos</div>
+</div>
+<div class="float">
+<img src="figs/pig03.jpg" style="width:50.0%"
+alt="Experimentação animal blocos tratamentos" />
+<div class="figcaption">Experimentação animal blocos tratamentos</div>
+</div>
+</div>
+<div id="exemplo-área-experimental" class="section level2">
+<h2>Exemplo: Área experimental</h2>
+<div class="float">
+<img src="figs/ambiencia.jpg" style="width:50.0%" alt="Nupea" />
+<div class="figcaption">Nupea</div>
+</div>
+</div>
+</div>
+<div id="croqui-comparação-entre-dic-e-dbc" class="section level1">
+<h1>Croqui: comparação entre DIC e DBC</h1>
+<pre><code>#&gt; [1] &quot;T1&quot; &quot;T2&quot; &quot;T3&quot; &quot;T4&quot; &quot;T5&quot; &quot;T6&quot; &quot;T7&quot; &quot;T8&quot; &quot;T9&quot;
+#&gt; 
+#&gt; Type &#39;citation(&quot;agricolaeplotr&quot;)&#39; for citing this R package in publications.
+#&gt; 
+#&gt; Attaching package: &#39;agricolaeplotr&#39;
+#&gt; The following object is masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     summary</code></pre>
+<p><img src="dbc_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="análise-dos-dados" class="section level1">
+<h1>Análise dos dados</h1>
+<div id="modelo-estatístico" class="section level2">
+<h2>Modelo estatístico</h2>
+<p><span class="math display">\[y_{ij} = \mu + b_j + \tau_i +
+e_{ij}\text{(1)}\]</span></p>
+<p>em que: - <span class="math inline">\(y_{ij}\)</span> é a observação
+referente ao tratamento <span class="math inline">\(i\)</span> no bloco
+<span class="math inline">\(j\)</span>;</p>
+<ul>
+<li><p><span class="math inline">\(\mu\)</span> é a constante comum a
+todas as observações (média geral);</p></li>
+<li><p><span class="math inline">\(b_j\)</span> é o efeito do <span
+class="math inline">\(j\)</span>-ésimo bloco, com <span
+class="math inline">\(j = 1, 2, \ldots, J\)</span>;</p></li>
+<li><p><span class="math inline">\(\tau_i\)</span> é o efeito do <span
+class="math inline">\(i\)</span>-ésimo tratamento, com <span
+class="math inline">\(i = 1, 2, \ldots, I\)</span>;</p></li>
+<li><p><span class="math inline">\(e_{ij}\)</span> é o erro
+experimental, tal que <span class="math inline">\(e_{ij}\sim \mbox{NID}
+(0; \sigma^2)\)</span>.</p></li>
+</ul>
+<div id="estimadores" class="section level3">
+<h3>Estimadores</h3>
+<div class="line-block">     As soluções de mínimos quadrados para os
+parâmetros <span class="math inline">\(\mu\)</span>, <span
+class="math inline">\(b_j\)</span> e <span
+class="math inline">\(\tau_i\)</span>, com <span
+class="math inline">\(j=1, \ldots, J\)</span> e <span
+class="math inline">\(i = 1, \ldots, I\)</span>, assumindo-se as
+restrições usuais,</div>
+<p><span class="math inline">\(\sum_{i}\hat{\tau}_i = 0\)</span> e <span
+class="math inline">\(\sum_{j}\hat{b}_j = 0\)</span>, são:</p>
+<p><span class="math display">\[\hat{\mu} = \bar{Y},\]</span> <span
+class="math display">\[\hat{b_j} = \bar{Y}_j - \bar{Y}\]</span> <span
+class="math display">\[\hat{\tau}_i = \bar{Y}_i - \bar{Y}\]</span></p>
+</div>
+</div>
+<div id="análise-da-variância" class="section level2">
+<h2>Análise da variância</h2>
+<p>Hipóteses:</p>
+<p><span class="math inline">\(H_0:\mu_1 = \mu_2 = \ldots =
+\mu_I\)</span></p>
+<p><span class="math inline">\(H_1:\)</span> pelo menos duas médias de
+tratamentos diferem entre si</p>
+<p>Tabela 1. ANOVA</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Fontes de Variação</th>
+<th align="center">G.L.</th>
+<th align="center">S.Q.</th>
+<th align="center">Q.M.</th>
+<th align="center">F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Blocos</td>
+<td align="center"><span class="math inline">\(J - 1\)</span></td>
+<td align="center">SQ Blocos</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">Tratamentos</td>
+<td align="center"><span class="math inline">\(I - 1\)</span></td>
+<td align="center">SQ Trat</td>
+<td align="center">QM Trat</td>
+<td align="center">Fcal</td>
+</tr>
+<tr class="odd">
+<td align="center">Resíduo</td>
+<td align="center"><span class="math inline">\((I-1)(J-1)\)</span></td>
+<td align="center">SQ Res</td>
+<td align="center">QM Res</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">Total</td>
+<td align="center"><span class="math inline">\(IJ - 1\)</span></td>
+<td align="center">SQ Total</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">     Rejeita-se <span
+class="math inline">\(H_0\)</span> se <span
+class="math inline">\(F_{cal} \geq F_{tab_{(\alpha, I-1,
+(I-1)(J-1))}}\)</span>, em que <span
+class="math inline">\(\alpha\)</span> é o nível de significância, <span
+class="math inline">\(I-1\)</span> é o número de graus de liberdade do
+numerador e <span class="math inline">\((I-1)(J-1)\)</span> é o número
+de graus de liberdade do denominador.</div>
+<div id="exemplo" class="section level3">
+<h3>Exemplo</h3>
+<p>Os dados apresentados a seguir foram coletados de um experimento
+instalado no delineamento casualizado em blocos, cujo objetivo é
+comparar nove porta-enxertos para laranjeira Valência. Cada parcela era
+constituída por duas plantas e as produções de laranja (número médio de
+frutos por planta) tomadas dois anos após a instalação do experimento
+são:</p>
+<p>Tabela 2. Numero médio de frutos por porta enxerto</p>
+<table>
+<thead>
+<tr class="header">
+<th>Enxertos</th>
+<th>I</th>
+<th>II</th>
+<th>III</th>
+<th>Totais</th>
+<th>Médias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tangerina sunki</td>
+<td>145</td>
+<td>155</td>
+<td>166</td>
+<td>466</td>
+<td>155,33</td>
+</tr>
+<tr class="even">
+<td>Limão rugoso nacional</td>
+<td>200</td>
+<td>190</td>
+<td>190</td>
+<td>580</td>
+<td>193,33</td>
+</tr>
+<tr class="odd">
+<td>Limão rugoso da Flórida</td>
+<td>183</td>
+<td>186</td>
+<td>208</td>
+<td>577</td>
+<td>192,33</td>
+</tr>
+<tr class="even">
+<td>Tangerina Cleópatra</td>
+<td>190</td>
+<td>175</td>
+<td>186</td>
+<td>551</td>
+<td>183,16</td>
+</tr>
+<tr class="odd">
+<td>Citranger-troyer</td>
+<td>180</td>
+<td>160</td>
+<td>156</td>
+<td>496</td>
+<td>165,33</td>
+</tr>
+<tr class="even">
+<td>Trifoliata</td>
+<td>130</td>
+<td>160</td>
+<td>130</td>
+<td>420</td>
+<td>140,00</td>
+</tr>
+<tr class="odd">
+<td>Tangerina cravo</td>
+<td>206</td>
+<td>165</td>
+<td>170</td>
+<td>541</td>
+<td>180,33</td>
+</tr>
+<tr class="even">
+<td>Laranja caipira</td>
+<td>250</td>
+<td>271</td>
+<td>230</td>
+<td>751</td>
+<td>250,33</td>
+</tr>
+<tr class="odd">
+<td>Limão cravo</td>
+<td>164</td>
+<td>190</td>
+<td>193</td>
+<td>547</td>
+<td>182,33</td>
+</tr>
+<tr class="even">
+<td>Totais</td>
+<td>1648</td>
+<td>1652</td>
+<td>1629</td>
+<td>4929</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Soma de quadrado do Total</p>
+<p><span class="math display">\[\text{SQ Total} =  \sum_{ij} y_{ij}^2 -
+\frac{G^2}{IJ}
+                 =  145^2 + 155^2 + \ldots + 193^2 - \frac{4929^2}{27}
+                 =  27042,67 \]</span></p>
+<p>Soma de quadrado de Blocos</p>
+<p><span class="math display">\[\text{SQ Blocos} =  \frac{1}{I} \sum_{j}
+B_{j}^2 - \frac{G^2}{IJ}
+                 =  \frac{1}{9}\Big(1648^2 + 1652^2 + 1629^2 \Big) -
+\frac{4929^2}{27}
+                 =  33,55 \]</span></p>
+<p>Soma de quadrado de Tratamento</p>
+<p><span class="math display">\[\text{SQ
+Tratamentos}  =  \frac{1}{J}\sum_{i} T_{i}^2 - \frac{G^2}{IJ}
+                 =  \frac{1}{3}\Big(466^2 + 580^2 + \ldots + 547^2 \Big)
+- \frac{4929^2}{27}
+                 =  22981,33\]</span></p>
+<p>Soma de quadrado do Resíduo</p>
+<p><span class="math display">\[\text{SQ Resíduo} = \text{SQ Total} -
+\text{SQ Blocos} - \text{SQ Tratamentos}
+                 =  27042,67 - 33,55 - 22981,33\\
+                 =  4027,79\]</span></p>
+<p>Tabela 3. Quadro da ANOVA</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Fontes de Variação</th>
+<th align="center">G.L.</th>
+<th align="center">S.Q.</th>
+<th align="center">Q.M.</th>
+<th align="center">F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Blocos</td>
+<td align="center">2</td>
+<td align="center">33,55</td>
+<td align="center">16,78</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">Tratamentos</td>
+<td align="center">8</td>
+<td align="center">22.981,33</td>
+<td align="center">2.872,67</td>
+<td align="center">11,41</td>
+</tr>
+<tr class="odd">
+<td align="center">Resíduo</td>
+<td align="center">16</td>
+<td align="center">4.027,79</td>
+<td align="center">251,74</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">Total</td>
+<td align="center">26</td>
+<td align="center">27.042,67</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://docs.ufpr.br/~vayego/pedeefes/tab_sned.pdf">Tabela
+F</a></p>
+<div class="float">
+<img src="figs/tabelaf.PNG" alt="tabela F" />
+<div class="figcaption">tabela F</div>
+</div>
+<p><span class="math inline">\(F_{(\alpha = 0,05, 8, 16)} =
+2,59.\)</span></p>
+<p><img src="dbc_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="atividades" class="section level1">
+<h1>Atividades</h1>
+<ol style="list-style-type: decimal">
+<li>Com o objetivo de comparar seis diferentes progênies de Eucaliptus
+grandis com sete anos (médias de 25 plantas por parcela) com relação a
+altura, em m, um pesquisador instalou um experimento em blocos com
+quatro repetições. Os dados são apresentados a seguir.</li>
+</ol>
+<pre class="r"><code>dadose1 &lt;- data.frame(Bloco = as.factor(rep(1:4, each = 6)),
+                      Progenie = as.factor(rep(c(&quot;Pretoria&quot;, 637, 2093,2094,                                                    9559, 9575), times = 4)),
+                      
+altura = c(20.3,21.7,22.0,20.8,21.5,19.6,
+           19.6,19.3,24.9,23.0,22.3,17.7,
+           23.5,16.7,24.4,21.3,22.1,18.7,
+           19.1,18.5,20.8,24.9,21.9,22.0)
+)</code></pre>
+<p>Pede-se:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Faça a análise descrita dos dados apresentando comentários</li>
+<li>Testar a hipótese de igualdade das médias das progênies ao nível de
+5% de significância. Apresentar as hipóteses e conclusões.</li>
+<li>Se necessário, comparar as médias das progênies pelo teste de Tukey
+ao nível de 5% de significância. Apresentar as hipóteses e
+conclusões</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>A seguir é apresentado (parcialmente) o quadro da análise da
+variância dos dados de um estudo realizado em Jaboticabal - SP por Ruiz
+(1977) que comparou métodos de semeadura no mamoeiro. O experimento foi
+instalado em delineamento de blocos casualizados, com 4 repetições,
+avaliando 3 métodos de semeadura. Foram avaliadas duas unidades
+experimentais por método em cada bloco.</li>
+</ol>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="9%" />
+<col width="18%" />
+<col width="14%" />
+<col width="12%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Causa de Variação</th>
+<th>G.L.</th>
+<th>S.Q.</th>
+<th>Q.M.</th>
+<th>Fcal</th>
+<th>Ftab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Blocos</td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td>7,216</td>
+<td>3,16</td>
+</tr>
+<tr class="even">
+<td>Tratamentos</td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td>8429,1</td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td>34,453</td>
+<td>3,55</td>
+</tr>
+<tr class="odd">
+<td>Resíduo</td>
+<td>18</td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\hat{\mu}_{A}\)</span></th>
+<th><span class="math inline">\(\hat{\mu}_{B}\)</span></th>
+<th><span class="math inline">\(\hat{\mu}_{C}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>101.05</td>
+<td>61.66</td>
+<td>60.94</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-alpha">
+<li><p>Complete o quadro da ANOVA e conclua.</p></li>
+<li><p>Faça um teste de médias</p></li>
+</ol>
+<p>Faça o upload da resolução e tire suas <a
+href="https://forms.gle/LQ6mNE4DoR1Fk6px6">aqui</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

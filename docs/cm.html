@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Teste de comparação de médias</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Estatística experimental</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Sobre</a>
+</li>
+<li>
+  <a href="intro.html">Introdução</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Capítulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="dic.html">Delineamento inteiramente casualizado</a>
+    </li>
+    <li>
+      <a href="cm.html">Comparação de médias</a>
+    </li>
+    <li>
+      <a href="rp.html">Regressão polinomial</a>
+    </li>
+    <li>
+      <a href="anova.html">Pressuposições da Anova</a>
+    </li>
+    <li>
+      <a href="dbc.html">Delineamento blocos casualizados</a>
+    </li>
+    <li>
+      <a href="dql.html">Delineamento quadrado latino</a>
+    </li>
+    <li>
+      <a href="fat.html">Esquema fatorial de tratamentos</a>
+    </li>
+    <li>
+      <a href="parcs.html">Parcelas subdivididas</a>
+    </li>
+    <li>
+      <a href="grups.html">Grupos de experimentos</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://davivitti.shinyapps.io/atividades/">Atividades</a>
+</li>
+<li>
+  <a href="https://forms.gle/LQ6mNE4DoR1Fk6px6">Dúvidas?</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Teste de comparação de médias</h1>
+
+</div>
+
+
+<style type="text/css">
+body {
+     text-align: justify;
+}
+
+</style>
+<div id="fundamentos" class="section level1">
+<h1>Fundamentos</h1>
+<div class="line-block">     Considere o conjunto de dados para o
+experimento balanceado, com cinco genótipos de milho e quatro
+repetições, seguindo um delineamento inteiramente casualizado, tendo-se
+observado o peso das espigas de cada parcela, conforme apresentado a
+seguir:</div>
+<p>Tabela1: Peso da espiga de milho delimitado por diferentes
+genótipos</p>
+<table>
+<thead>
+<tr class="header">
+<th>Tratamentos</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>Total</th>
+<th>Média</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>5,95</td>
+<td>6,21</td>
+<td>5,40</td>
+<td>5,18</td>
+<td>22,74</td>
+<td>5,6850</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5,07</td>
+<td>6,71</td>
+<td>5,46</td>
+<td>4,98</td>
+<td>22,22</td>
+<td>5,5550</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>4,82</td>
+<td>5,11</td>
+<td>4,68</td>
+<td>4,52</td>
+<td>19,13</td>
+<td>4,7825</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>3,87</td>
+<td>4,16</td>
+<td>4,11</td>
+<td>4,84</td>
+<td>16,98</td>
+<td>4,2450</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5,53</td>
+<td>5,82</td>
+<td>4,29</td>
+<td>4,70</td>
+<td>20,34</td>
+<td>5,0850</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>101,41</td>
+<td>5,0705</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">     Anteriormente trabalhamos com parte do
+conjunto de dados da Tabela 1.</div>
+<p>Assumindo-se que todas as pressuposições para a realização da ANOVA
+foram atendidas, o teste para as hipóteses:</p>
+<p><span class="math display">\[H_0 : \mu_{1} = \mu_{2} = \mu_{3} =
+\mu_{4} = \mu_{5}\]</span></p>
+<p><span class="math display">\[H_1 : \text{pelo menos um contraste de
+médias difere de zero}\]</span></p>
+<p>apresentou o seguinte resultado:</p>
+<pre><code>#&gt; Analysis of Variance Table
+#&gt; 
+#&gt; Response: prod
+#&gt;           Df Sum Sq Mean Sq F value  Pr(&gt;F)  
+#&gt; Genotipo   4 5.5078 1.37695  4.2872 0.01644 *
+#&gt; Residuals 15 4.8177 0.32118                  
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>#&gt; Carregando pacotes exigidos: car
+#&gt; Carregando pacotes exigidos: carData
+#&gt; Carregando pacotes exigidos: sandwich</code></pre>
+<p><img src="cm_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="line-block">     Considerando-se um nível de 5% de
+significância, p-valor = 0.0164 menor que 0,05, há evicências para
+rejeitarmos <span class="math inline">\(H_0\)</span>, desse modo, não
+podemos afirmar que todas as médias são iguais.</div>
+<div class="line-block">    Aqui estudaremos algumas técnicas de
+comparações múltiplas das médias: duas a duas, média de cada tratamento
+comparada com a média de um controle e testes (t e F) para contrastes
+ortogonais.<br />
+     Um teste de comparações múltiplas pode ser classificado como
+protegido ou não protegido. O teste é dito protegido se realizado
+somente mediante rejeição de <span class="math inline">\(H_0\)</span>
+para o teste F (ANOVA). E, um teste é dito não protegido quando
+realizado independentemente do resultado para o teste F (ANOVA).</div>
+<p>Todo teste de comparações múltiplas é realizado para contrastes entre
+médias (ou totais).</p>
+<div id="contraste" class="section level2">
+<h2>Contraste</h2>
+<p><strong>Definição</strong>: Um contraste de médias é definido pela
+combinação linear das mesmas, ou seja:</p>
+<p><span class="math display">\[\text{L} = a_{1}\mu_{1} + a_{2}\mu_{2} +
+. . . + a_{I}\mu_{I}\]</span></p>
+<p>tal que, <span class="math inline">\(\sum^I_{i=1} a_i = 0\)</span>,
+para o caso em que todos os tratamentos apresentam o mesmo número de
+repetições <span class="math inline">\(J\)</span>. | Generalizando,
+<span class="math inline">\(\text{L} = a_1\mu_{1} + a_2\mu_{2} + . . . +
+a_I\mu_{I}\)</span> ,tal que, <span class="math inline">\(\sum^I_{i=1}
+n_ia_j = 0\)</span>, é um contraste, em que <span
+class="math inline">\(n_i\)</span> é o número de repetições do <span
+class="math inline">\(i\)</span>−ésimo tratamento.</p>
+<div class="line-block">     São exemplos de contrastes:</div>
+<p><span class="math display">\[\text{L}_1 = \mu_{1} − \mu_{2}\]</span>
+<span class="math display">\[\text{L}_2 = 2\mu_{1} − \mu_{2} −
+\mu_{3}\]</span> <span class="math display">\[\text{L}_3 = \mu_{3} −
+\mu_{4}\]</span></p>
+<div class="line-block">     Dado um contraste <span
+class="math inline">\(\text{L} = a_1\mu_{1} + a_2\mu_{2} + . . . +
+a_I\mu_{I}\)</span>, sua estimativa é dada por <span
+class="math inline">\(\text{L} = a_1\mu_{1} + a_2\mu_{2} + . . . +
+a_I\mu_{I}\)</span>.</div>
+<p>Assim, para o caso específico:</p>
+<p><span class="math display">\[\text{L} = \mu_1 - \mu_2 \Rightarrow
+\hat{L} = \hat{\mu}_1 - \hat{\mu}_2 = \bar{y}_1-\bar{y}_2\]</span></p>
+<div class="line-block">     Tal estimativa pode ser interpretada da
+seguinte forma: se <span class="math inline">\(\text{L} &gt; 0\)</span>
+temos que a média do grupo “+” é superior à média do grupo “-”.
+analogamente, <span class="math inline">\(\text{L} &lt; 0\)</span>, a
+média do grupo “-” é superior à média do grupo “+”.</div>
+</div>
+</div>
+<div id="comparação-de-duas-médias" class="section level1">
+<h1>Comparação de duas médias</h1>
+<div class="line-block">     A comparação de todas as médias duas a
+duas, implica na realização de testes para hipóteses do tipo:</div>
+<p><span class="math display">\[H_0: \mu_i = \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} = 0\]</span></p>
+<p><span class="math display">\[H_1: \mu_i \neq \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} \neq 0\]</span></p>
+<div class="line-block">     Para tanto é necessário um modelo
+estatístico. Seja,</div>
+<p><span class="math display">\[y_{ij} = \mu + \tau_i + e_{ij} = \mu_i +
+e_{ij},\]</span></p>
+<p>em que:</p>
+<ul>
+<li><p><span class="math inline">\(e_{ij} \stackrel{iid}{\sim} N(0,
+\sigma^2)\)</span>.</p></li>
+<li><p><span class="math inline">\(i = 1, . . . , I\)</span> e <span
+class="math inline">\(j = 1, . . . , n_i\)</span></p></li>
+</ul>
+<div class="line-block">    Seja o contraste <span
+class="math inline">\(\text{L} = \mu_i - \mu_{i&#39;}\)</span>
+então:</div>
+<p><span class="math display">\[\hat{L} = \hat{\mu}_i -
+\hat{\mu}_{i&#39;}.\]</span> <span
+class="math display">\[\text{E}(\hat{L}) = \mu_i-\mu_{i&#39;}\]</span>
+Assim,</p>
+<p><span class="math display">\[Var(\hat{L}) = \Bigg(\frac{1}{n_i} +
+\frac{1}{n_{i&#39;}}\Bigg)\sigma^2\]</span></p>
+<div id="teste-t-student-ou-lsd-de-fisher" class="section level2">
+<h2>Teste t-Student ou LSD de Fisher</h2>
+<p>Hipóteses do teste:</p>
+<p><span class="math display">\[H_0: \mu_i = \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} = 0\]</span></p>
+<p><span class="math display">\[H_1: \mu_i \neq \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} \neq 0\]</span></p>
+<div class="line-block">    A estatística do teste é</div>
+<p><span class="math display">\[t_\text{cal}=\frac{\hat{L} -
+\text{E}(\hat{L})}{\sqrt{\widehat{\text{Var}}(\hat{L})}} =
+\frac{\hat{\mu}_i - \hat{\mu}_{i&#39;} - 0}{\sqrt{\Bigg(\frac{1}{n_i} +
+\frac{1}{n_{i&#39;}}\Bigg)\hat{\sigma}^2}}.\]</span></p>
+<div class="line-block">     Rejeita-se <span
+class="math inline">\(H_0\)</span>, ao nível <span
+class="math inline">\(100\times\alpha\%\)</span> de significância, se
+<span class="math inline">\(|t_\text{cal}| \geq |t_{(\alpha/2,\nu)}| =
+|t_\text{tab}|\)</span>, em que <span class="math inline">\(\nu\)</span>
+corresponde ao número de graus de liberdade do resíduo.</div>
+<div class="line-block">     Para o exemplo de produtividade de milho
+testaremos todos os conjuntos de hipóteses:</div>
+<p><span class="math inline">\(H_0 : \mu_{1} − \mu_{2} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{1} − \mu_{2}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{1} − \mu_{3} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{1} − \mu_{3}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{1} − \mu_{4} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{1} − \mu_{4}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{1} − \mu_{5} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{1} − \mu_{5}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{2} − \mu_{3} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{2} − \mu_{3}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{2} − \mu_{4} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{2} − \mu_{4}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{2} − \mu_{5} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{2} − \mu_{5}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{3} − \mu_{4} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{3} − \mu_{4}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{3} − \mu_{5} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{3} − \mu_{5}\neq
+0\)</span></p>
+<p><span class="math inline">\(H_0 : \mu_{4} − \mu_{5} = 0\)</span>
+versus <span class="math inline">\(H_1 : \mu_{4} − \mu_{5}\neq
+0\)</span></p>
+<div class="line-block">    Os valores absolutos das estimativas dos
+contrastes são:</div>
+<p>Tabela 2: Contrastes de médias dos diferentes genótipos de milho</p>
+<table>
+<thead>
+<tr class="header">
+<th>médias</th>
+<th><span class="math inline">\(\mu_{2}\)</span></th>
+<th><span class="math inline">\(\mu_{3}\)</span></th>
+<th><span class="math inline">\(\mu_{4}\)</span></th>
+<th><span class="math inline">\(\mu_{5}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{1}\)</span></td>
+<td>0,1300</td>
+<td>0,9025</td>
+<td>1,4400</td>
+<td>0,6000</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{2}\)</span></td>
+<td>-</td>
+<td>0,7725</td>
+<td>1,3100</td>
+<td>0,4700</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{3}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>0,5375</td>
+<td>0,3025</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{4}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>0,8400</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">    E a diferença mínima significativa (dms), ou
+seja, o valor crítico (em valor absoluto)</div>
+<p><span class="math display">\[\text{d.m.s} =
+t_{(\alpha/2,\nu)}\sqrt{\Bigg(\frac{1}{n_i} +
+\frac{1}{n_{i&#39;}}\Bigg)\hat{\sigma}^2},\]</span> ou seja,</p>
+<p><span class="math display">\[d.m.s. = t(\alpha/2,
+\text{gl}_\text{Res})\sqrt{\frac{2\times \text{QMRes}}{J}}\]</span></p>
+<p><span class="math display">\[d.m.s. = 2.13\sqrt{\frac{2\times
+0.3212}{4}}= 0.8536\]</span></p>
+<div class="line-block">   As diferenças significativas, assumindo <span
+class="math inline">\(\alpha = 0, 05\)</span> estão sinalizadas com
+∗.</div>
+<p>Tabela 3: Denotando as diferenças minimas significativas sobre os
+contrastes</p>
+<table>
+<thead>
+<tr class="header">
+<th>médias</th>
+<th><span class="math inline">\(\mu_{2}\)</span></th>
+<th><span class="math inline">\(\mu_{3}\)</span></th>
+<th><span class="math inline">\(\mu_{4}\)</span></th>
+<th><span class="math inline">\(\mu_{5}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{1}\)</span></td>
+<td>0,1300</td>
+<td>0,9025*</td>
+<td>1,4400*</td>
+<td>0,6000</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{2}\)</span></td>
+<td>-</td>
+<td>0,7725</td>
+<td>1,3100*</td>
+<td>0,4700</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{3}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>0,5375</td>
+<td>0,3025</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{4}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>0,8400</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">     Outro modo de apresentarmos os resultados
+para as comparações das médias duas a duas é o que segue. Inicialmente,
+ordenamos as médias em ordem decrescente e acrescentamos as letras de
+tal modo que médias seguidas da mesma letra não apresentam diferença
+siginificativa.</div>
+<p>Tabela 4: Classificação dos tratamentos pelo teste LSD de Fisher</p>
+<table>
+<thead>
+<tr class="header">
+<th>Genótipo</th>
+<th>média estimada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>5,6850 a</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5,5550 ab</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5,0850 abc</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>4,7825 bc</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>4,2450 c</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">     Logo, considerando-se o nível de 5% de
+significância, há evidências para afirmarmos que os genótipos 1 e 3 não
+apresentam, em média, a mesma produtividade. Há evidências para
+afirmarmos que os genéticos 1 e 4, assim como os genótipo 2 e 4, não
+apresentam, em média, amesma produtividade. O mesmo não se pode afirmar
+a respeito das demais comparações.</div>
+</div>
+<div id="teste-t-com-correção-de-bonferroni" class="section level2">
+<h2>Teste t com correção de Bonferroni</h2>
+<div class="line-block">      Entretanto o teste t como realizado,
+apresenta alguns problemas. Suponha que sejam 10 os tratamentos em
+análise.<br />
+     Quantas seriam as comparações duas a duas? Quarenta e cinco.</div>
+<div class="line-block">     Supondo o nível de significância 0,05 para
+cada comparação, qual será o nível de significância conjunto, assumindo
+que as comparações sejam independentes?</div>
+<p><span class="math display">\[1-(1-\alpha)^{c} = 1 - (1 - 0,05)^{45} =
+0,9006\]</span></p>
+<p>em que c corresponde ao número de comparações.</p>
+<div class="line-block">     O que nos leva a refletir sobre o nível de
+significância por comparação e conjunto. Nível de significância por
+comparação (comparisonwise): controla a taxa de erro tipo I por
+comparação. Nível de significância por experimento (experimentwise):
+controla a taxa de erro tipo I considerando todo o conjunto de
+comparações.</div>
+<div class="line-block">     No teste t, podemos controlar a taxa de
+erro máxima por experimento usando a taxa de erro por comparação dada
+por α/c, em que c corresponde ao número de comparações de duas médias.
+Assim definimos acorreção de Bonferroni.</div>
+<div class="line-block">     Para o exemplo de produtividade de milho
+com a correção de Bonferroni temos a nova diferença mínima
+significativa,</div>
+<p><span class="math display">\[\text{d.m.s.} = t((0,05/10)/2,
+\text{gl}_{\text{Res}})\sqrt{\frac{2\times \text{QMRes}}{J}}\]</span>
+<span class="math display">\[= 3.29 \sqrt{\frac{2\times 0.3212}{4}} =
+1.3185\]</span></p>
+<div class="line-block">    Resultando em apenas uma diferença
+significativa, entre a média de produtividade dos genótipos 1 e 4, como
+pode ser observado a seguir.</div>
+<p>Tabela 5: Denotando as diferenças minimas significativas sobre os
+contrastes</p>
+<table>
+<thead>
+<tr class="header">
+<th>médias</th>
+<th><span class="math inline">\(\mu_{2}\)</span></th>
+<th><span class="math inline">\(\mu_{3}\)</span></th>
+<th><span class="math inline">\(\mu_{4}\)</span></th>
+<th><span class="math inline">\(\mu_{5}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{1}\)</span></td>
+<td>0,1300</td>
+<td>0,9025</td>
+<td>1,4400*</td>
+<td>0,6000</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{2}\)</span></td>
+<td>-</td>
+<td>0,7725</td>
+<td>1,3100</td>
+<td>0,4700</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{3}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>0,5375</td>
+<td>0,3025</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{4}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>0,8400</td>
+</tr>
+</tbody>
+</table>
+<p>Tabela 6: Classificação dos genótipo pelo teste de LSD de Fisher com
+correção de BonFerroni</p>
+<table>
+<thead>
+<tr class="header">
+<th>Genótipo</th>
+<th>média estimada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>5,6850 a</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5,5550 ab</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5,0850 ab</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>4,7825 ab</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>4,2450 b</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="teste-de-tukey" class="section level2">
+<h2>Teste de Tukey</h2>
+<div class="line-block">     O teste de Tukey também é um teste para
+conjuntos de hipóteses do tipo</div>
+<p><span class="math display">\[H_0: \mu_i = \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} = 0\]</span></p>
+<p><span class="math display">\[H_1: \mu_i \neq \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} \neq 0\]</span></p>
+<div class="line-block">     Tal teste é baseado na amplitude total
+estudentizada de I variáveis aleatórias normais independentes e controla
+a taxa máxima de erro tipo I por experimento.</div>
+<p>Rejeita-se H0 se <span
+class="math display">\[\displaystyle{|\hat{\mu}_i - \hat{\mu}_{i&#39;}|
+\geq \Delta}\]</span></p>
+<p>em que <span class="math display">\[\displaystyle{\Delta =
+q_{(\alpha, I,
+\text{glRes})}\sqrt{\frac{\widehat{\mbox{Var}}(\hat{L})}{2}} =
+q_{(\alpha, I, \text{glRes})}\sqrt{\Bigg(\frac{1}{n_i} +
+\frac{1}{n_{i&#39;}}\Bigg)\frac{\text{QMRes}}{2}}}\]</span></p>
+<p>Se <span class="math inline">\(n_i=n_{i&#39;}=J\)</span>, então,
+<span class="math inline">\(\displaystyle{\Delta = q_{(\alpha, I,
+\text{glRes})}\sqrt{\frac{\text{QMRes}}{\text{J}}}}.\)</span></p>
+<div class="line-block">     Para o exemplo de produtividade de milho a
+diferença mínima significativa para o teste de Tukey será</div>
+<p><span class="math display">\[\displaystyle{\Delta = q_{(\alpha, I,
+\text{glRes})}\sqrt{\frac{\text{QMRes}}{J}}}.\]</span></p>
+<p><span class="math display">\[ =
+3.29\sqrt{\frac{0.3212}{5}}=1.2375.\]</span></p>
+<div class="line-block">     Resultando em duas diferença
+significativas, entre as médias de produtividade dos genótipos 1 e 4, e
+entre as médias de produtividade dos genótipos 2 e 4, como pode ser
+observado a seguir.</div>
+<p>Tabela 7: Denotando as diferenças minimas significativas sobre os
+contrastes</p>
+<table>
+<thead>
+<tr class="header">
+<th>médias</th>
+<th><span class="math inline">\(\mu_{2}\)</span></th>
+<th><span class="math inline">\(\mu_{3}\)</span></th>
+<th><span class="math inline">\(\mu_{4}\)</span></th>
+<th><span class="math inline">\(\mu_{5}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{1}\)</span></td>
+<td>0,1300</td>
+<td>0,9025</td>
+<td>1,4400*</td>
+<td>0,6000</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{2}\)</span></td>
+<td>-</td>
+<td>0,7725</td>
+<td>1,3100*</td>
+<td>0,4700</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu_{3}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>0,5375</td>
+<td>0,3025</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mu_{4}\)</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>0,8400</td>
+</tr>
+</tbody>
+</table>
+<p>Tabela 8: Classificação dos genótipos pelo teste de Tukey</p>
+<table>
+<thead>
+<tr class="header">
+<th>Genótipo</th>
+<th>média estimada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>5,6850 a</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5,5550 a</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5,0850 ab</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>4,7825 ab</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>4,2450 b</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="teste-de-duncan" class="section level2">
+<h2>Teste de Duncan</h2>
+<div class="line-block">    Assim como LSD de Fisher (t) e o teste de
+Tukey, as hipóteses são do tipo</div>
+<p><span class="math display">\[H_0: \mu_i = \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} = 0\]</span></p>
+<p><span class="math display">\[H_1: \mu_i \neq \mu_{i&#39;}
+\Leftrightarrow \mu_i - \mu_{i&#39;} \neq 0\]</span></p>
+<div class="line-block">     Porém, este é um teste realizado em
+múltiplos estágios e recomendado para o caso balanceado (mesmo número de
+repetições por tratamento).</div>
+<div class="line-block">     Por ser um teste em múltiplos estágios, o
+nível de significância (<span class="math inline">\(\alpha\)</span>)
+varia de acordo com o número de médias ordenadas abrangidas (k)</div>
+<p><span class="math display">\[\alpha&#39; =
+1-(1-\alpha)^{k-1}.\]</span></p>
+<div class="line-block">     No primeiro estágio o teste a ser realizado
+é entre a maior e a menor média, nesse caso o número de médias
+abrangidas será igual ao número de tratamentos, <span
+class="math inline">\(I\)</span>. Caso não haja evidências para a
+rejeição de H0 não são realizados outros testes e conclui-se que as
+médias não diferem entre si, duas a duas. Caso haja evidências para
+rejeição de <span class="math inline">\(H_0\)</span> o teste é realizado
+entre a maior e a segunda menor média, abrangendo <span
+class="math inline">\(I − 1\)</span> médias, e assim por diante.</div>
+<div class="line-block">     Diferentemente do teste de Tukey, que
+controla a taxa de erro tipo I por experimento, este controla a taxa de
+erro tipo I por comparação, e por este motivo é um teste menos rigoroso
+que o teste de Tukey, ou seja, pode rejeitar <span
+class="math inline">\(H_0\)</span> com maior facilidade.</div>
+<div class="line-block">     Cabe salientar que também é um teste
+baseado na amplitude total estudentizada, operando com suas
+potências.</div>
+<p>O critério de decisão consiste em rejeitar <span
+class="math inline">\(H_0\)</span> se</p>
+<p><span class="math display">\[\displaystyle{|\hat{\mu}_i -
+\hat{\mu}_{i&#39;}| \geq D_i},\]</span></p>
+<p>em que</p>
+<p><span class="math display">\[\displaystyle{D_i =  z_{(\alpha, k,
+\text{glRes})}\sqrt{\frac{\text{QMRes}}{J}}
+}\]</span></p>
+<p>e <span class="math inline">\(k\)</span> é o número de médias
+envolvidas.</p>
+<p><strong>Exemplo</strong> Para o exemplo de produtividade de milho as
+médias ordenadas são:</p>
+<p>Tabela 9: médias por genótipo</p>
+<table>
+<thead>
+<tr class="header">
+<th>Genótipo</th>
+<th>média estimada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>5,6850</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5,5550</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>4,7825</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>4,2450</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5,0850</td>
+</tr>
+</tbody>
+</table>
+<p>O primeiro teste a ser realizado é para as hipóteses</p>
+<p><span class="math display">\[H_0: \mu_1 = \mu_{4} \Leftrightarrow
+\mu_1 - \mu_{4} = 0 \qquad \text{ vs} \qquad
+H_1: \mu_1 \neq \mu_{4} \Leftrightarrow \mu_1 - \mu_{4} \neq
+0.\]</span></p>
+<p>A primeira diferença mínima significativa abrangerá as cinco médias,
+D5</p>
+<p><span class="math display">\[\displaystyle{D_5 =  z_{(0.05, I,
+glRes)}\sqrt{\frac{\text{QMRes}}{J}}}\]</span></p>
+<p><span class="math display">\[
+=  3.31\sqrt{\frac{0.3212}{4}}=0.9385\]</span> Como |<span
+class="math inline">\(\mu_1 - \mu_{4}\)</span>| = 1, 4400 &gt; 0, 9385 =
+D5 há evidências para rejeitarmos a hipótese H0.</p>
+<p>Desse modo, o próximo teste será para as hipóteses:</p>
+<p><span class="math display">\[H_0: \mu_1 = \mu_{3} \Leftrightarrow
+\mu_1 - \mu_{3} = 0 \qquad \text{ vs} \qquad
+H_1: \mu_1 \neq \mu_{3} \Leftrightarrow \mu_1 - \mu_{3} \neq
+0.\]</span></p>
+<p>Assim:</p>
+<p><span class="math display">\[\displaystyle{D_4 =  z_{(0.05,I-1,
+glRes)}\sqrt{\frac{QMRes}{J}}}\]</span></p>
+<p><span class="math display">\[
+=  3.25\sqrt{\frac{0.3212}{4}}=0.9210\]</span> | Como |<span
+class="math inline">\(\mu_1 - \mu_{3}\)</span>| = 0, 9025 &lt; 0, 9210 =
+D4 não há evidências para rejeitarmos a hipótese <span
+class="math inline">\(H_0\)</span> . Desse modo, concluímos que as
+médias de produtividade para os genótipos 1, 2, 3 e 5 não diferem entre
+si.</p>
+<p>O próximo teste será para as hipóteses:</p>
+<p><span class="math display">\[H_0: \mu_2 = \mu_{4} \Leftrightarrow
+\mu_2 - \mu_{4} = 0 \qquad \text{ vs} \qquad
+H_1: \mu_2 \neq \mu_{4} \Leftrightarrow \mu_2 - \mu_{4} \neq
+0.\]</span></p>
+<p>que abrange quatro médias. Assim, usamos a diferença mínima
+significativa D4.</p>
+<div class="line-block">     Como |<span class="math inline">\(\mu_2 -
+\mu_{4}\)</span>| = 1, 3100 &gt; 0, 9210 = D4 há evidências para
+rejeitarmos a hipótese <span class="math inline">\(H_{0}\)</span>.</div>
+<p>Desse modo, concluímos que a produtividade para o genótipo 2 difere
+da produtividade para o genótipo 4, em média.</p>
+<p>O próximo teste será para as hipóteses</p>
+<p><span class="math display">\[H_0: \mu_5 = \mu_{4} \Leftrightarrow
+\mu_5 - \mu_{4} = 0 \qquad \text{ vs} \qquad
+H_1: \mu_5 \neq \mu_{4} \Leftrightarrow \mu_5 - \mu_{4} \neq
+0.\]</span></p>
+<p><span class="math display">\[\displaystyle{D_3 =  z_{(0.05,I-2,
+glRes)}\sqrt{\frac{\text{QMRes}}{J}}}\]</span></p>
+<p><span class="math display">\[
+=  3.16\sqrt{\frac{0.3212}{4}}=0.8954\]</span></p>
+<div class="line-block">     Como |<span class="math inline">\(\mu_2 -
+\mu_{4}\)</span>| = 0, 8400 &lt; 0, 8954 = D3 não há evidências para
+rejeitarmos a hipótese <span class="math inline">\(H_0\)</span>.</div>
+<p>Desse modo, concluímos que as médias de produtividade para os
+genótipos 3, 4 e 5 não diferem entre si.</p>
+<p>Tabela 10: Classificação dos genótipo pelo teste de Duncan</p>
+<table>
+<thead>
+<tr class="header">
+<th>Genótipo</th>
+<th>média estimada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>5,6850 a</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5,5550 a</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5,0850 ab</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>4,7825 ab</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>4,2450 b</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="teste-de-dunnett" class="section level2">
+<h2>Teste de Dunnett</h2>
+<div class="line-block">     Hipóteses para o teste de Dunnett são do
+tipo</div>
+<p><span class="math display">\[H_0: \mu_i = \mu_{c} \Leftrightarrow
+\mu_i - \mu_{c} = 0\]</span></p>
+<p><span class="math display">\[H_1: \mu_i \neq \mu_{c} \Leftrightarrow
+\mu_i - \mu_{c} \neq 0\]</span></p>
+<p>ou seja, serve para comparar duas médias de tratamentos, sendo uma
+delas a média de um tratamento referência (controle). O teste de Dunnett
+controla a taxa máxima de erro tipo I, não excedendo <span
+class="math inline">\(\alpha\)</span>.</p>
+<p>O critério de decisão consiste em rejeitar H0 se</p>
+<p><span class="math display">\[\displaystyle{|\hat{\mu}_i -
+\hat{\mu}_{c}| \geq d_{(\alpha, I-1, glRes)}\sqrt{\frac{2\times
+\text{QMRes}}{J}}}.\]</span></p>
+<div class="line-block">     Para o exemplo dos cinco genótipos de
+milho. Assumindo o segundo genótipo como sendo o controle, temos as
+seguintes hipóteses de interesse:</div>
+<p><span class="math inline">\(H_0: \mu_1 = \mu_{2} \Leftrightarrow
+\mu_1 - \mu_{2} = 0\)</span> vs <span class="math inline">\(H_1: \mu_1
+\neq \mu_{2} \Leftrightarrow \mu_1 - \mu_{2} \neq 0\)</span></p>
+<p><span class="math inline">\(H_0: \mu_3 = \mu_{2} \Leftrightarrow
+\mu_3 - \mu_{2} = 0\)</span> vs <span class="math inline">\(H_1: \mu_3
+\neq \mu_{2} \Leftrightarrow \mu_3 - \mu_{2} \neq 0\)</span></p>
+<p><span class="math inline">\(H_0: \mu_4 = \mu_{2} \Leftrightarrow
+\mu_4 - \mu_{2} = 0\)</span> vs <span class="math inline">\(H_1: \mu_4
+\neq \mu_{2} \Leftrightarrow \mu_4 - \mu_{2} \neq 0\)</span></p>
+<p><span class="math inline">\(H_0: \mu_5 = \mu_{2} \Leftrightarrow
+\mu_5 - \mu_{2} = 0\)</span> vs <span class="math inline">\(H_1: \mu_5
+\neq \mu_{2} \Leftrightarrow \mu_5 - \mu_{2} \neq 0\)</span></p>
+<div class="line-block">     A diferença mínima significativa é dada
+por:</div>
+<p><span class="math display">\[\displaystyle{|\hat{\mu}_i -
+\hat{\mu}_{c}| \geq d_{(\alpha, I-1, glRes)}\sqrt{\frac{2\times
+\text{QMRes}}{J}}}.\]</span></p>
+<p><span class="math display">\[dms= d_{0.05, 4, 15)}\sqrt{\frac{2\times
+\text{QMRes}}{J}}= 2.73\sqrt{\frac{2\times 0.3212}{4}}=
+1.0940\]</span></p>
+<p>As diferenças observadas:</p>
+<p><span class="math inline">\(|\hat{\mu}_1 - \hat{\mu}_{2}| = 0, 1300
+ns\)</span></p>
+<p><span class="math inline">\(|\hat{\mu}_3 - \hat{\mu}_{2}| = 0, 7725
+ns\)</span></p>
+<p><span class="math inline">\(|\hat{\mu}_4 - \hat{\mu}_{2}| = 1, 3100
+∗\)</span></p>
+<p><span class="math inline">\(|\hat{\mu}_5 - \hat{\mu}_{2}| = 0, 4700
+ns\)</span></p>
+<div class="line-block">     Há evidências para rejeitarmos a igualdade
+entre as médias apenas quando comparadas asmédias de produtividade para
+os genótipos 2 e 4, ao nível de 5% de significância, pelo teste de
+Dunnett.</div>
+</div>
+</div>
+<div id="contrastes-ortogonais" class="section level1">
+<h1>Contrastes Ortogonais</h1>
+<p>Dois contrastes, L1 e L2,</p>
+<p><span class="math display">\[\text{L}_1 = a_1\mu_1 + a_2\mu_2 +
+\ldots + a_I\mu_I, \text{ em que, } \sum_{i=1}^I a_i = 0\]</span> <span
+class="math display">\[\text{L}_2 = b_1\mu_1 + b_2\mu_2 + \ldots +
+b_I\mu_I, \text{ em que, } \sum_{i=1}^I b_i = 0\]</span></p>
+<p>são ditos ortogonais se <span
+class="math inline">\(\displaystyle{\sum_{i=1}^I a_ib_i=0}\)</span>,
+desde que todos os tratamentos apresentem os mesmo número de
+repetições.</p>
+<p><strong>Exemplo 1</strong> | Considere os contrastes L1, L2 e L3,
+dados por:</p>
+<p><span class="math display">\[\text{L}_1 = \mu_1 - \mu_2\\ \nonumber
+\text{L}_2 = 2\mu_2 -\mu_3 - \mu_4\\ \nonumber
+\text{L}_3 = \mu_3 - \mu_4 \nonumber\]</span></p>
+<p>Vamos verificar se são ortogonais. (i) L1 e L2:</p>
+<p>Tabela 11: Verificação sobre os constrastes 1 e 2</p>
+<table>
+<thead>
+<tr class="header">
+<th>contraste</th>
+<th><span class="math inline">\(\mu_1\)</span></th>
+<th><span class="math inline">\(\mu_2\)</span></th>
+<th><span class="math inline">\(\mu_3\)</span></th>
+<th><span class="math inline">\(\mu_4\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L1</td>
+<td>1</td>
+<td>-1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>L2</td>
+<td>0</td>
+<td>2</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>Produto</td>
+<td>0</td>
+<td>-2</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">     Como a soma dos produtos dos coeficientes é
+diferente de zero (=-2), os contrastes L1 e L2 não são ortogonais.</div>
+<ol start="2" style="list-style-type: lower-roman">
+<li>L1 e L3:</li>
+</ol>
+<p>Tabela 12: Verificação sobre os constrastes 1 e 3</p>
+<table>
+<thead>
+<tr class="header">
+<th>contraste</th>
+<th><span class="math inline">\(\mu_1\)</span></th>
+<th><span class="math inline">\(\mu_2\)</span></th>
+<th><span class="math inline">\(\mu_3\)</span></th>
+<th><span class="math inline">\(\mu_4\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L1</td>
+<td>1</td>
+<td>-1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>L3</td>
+<td>0</td>
+<td>0</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>Produto</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Como a soma dos produtos dos coeficientes é nula, os contrastes L1 e
+L3 são ortogonais.</p>
+<ol start="3" style="list-style-type: lower-roman">
+<li>L2 e L3:</li>
+</ol>
+<p>Tabela 13: Verificação sobre os constrastes 2 e 3</p>
+<table>
+<thead>
+<tr class="header">
+<th>contraste</th>
+<th><span class="math inline">\(\mu_1\)</span></th>
+<th><span class="math inline">\(\mu_2\)</span></th>
+<th><span class="math inline">\(\mu_3\)</span></th>
+<th><span class="math inline">\(\mu_4\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L2</td>
+<td>0</td>
+<td>2</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>L3</td>
+<td>0</td>
+<td>0</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>Produto</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Como a soma dos produtos dos coeficientes é nula, os contrastes L2 e
+L3 são ortogonais.</p>
+<div id="teste-t-e-f-para-contrastes-ortogonais" class="section level2">
+<h2>Teste t e F para Contrastes Ortogonais</h2>
+<div class="line-block">     Os testes t e F para contrastes ortogonais
+são equivalentes;</div>
+<p>Teste F: apresentação da decomposição do número de graus de liberdade
+de tratamentos em um grau de liberdade associado a cada contraste; Os
+contrastes devem ser estabelecidos antes da realização da análise.</p>
+<p><span class="math display">\[\displaystyle{t_{L}^2 =
+\left(\frac{\hat{L}}{\sqrt{\widehat{\text{Var}}(\hat{L})}}\right)^2 =
+\text{F} = \frac{{\text{SQ}_\text{L}/1}}{\text{QMRes}} =
+\frac{{\hat{\text{L}}^2}}{{\frac{\sum_ia_i^2}{J}}\text{QMRes}}}.\]</span></p>
+<p>em que <span class="math inline">\(\hat{L} = a_1\hat{\mu}_1 +
+a_2\hat{\mu}_2 + \ldots + a_I\hat{\mu}_I\)</span>, <span
+class="math inline">\(\displaystyle{\widehat{\text{Var}}(\hat{L}) =
+\frac{\sum_{i=1}^I a_i^2}{J}QMRes}\)</span> e todos os tratamentos
+apresentam o mesmo número de repetições, <span
+class="math inline">\(J\)</span>.</p>
+<p><span class="math display">\[\displaystyle{{\text{SQ}_L =
+\frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} =
+\frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i
+a_i^2}}}.\]</span></p>
+<p><strong>Exemplo</strong> | Suponha um experimento instalado para
+avaliar a eficiência de fungicidas na produção de batatas. Foram
+utilizados quatro fungicidas + controle (sem aplicação de fungicida),
+sendo que os dois primeiros usam um modo de ação (modo A) e os dois
+últimos fungicidas outro modo de ação (modo B). Forme um grupo de
+contrastes ortogonais.</p>
+<div class="line-block">      Com o objetivo de comparar a média do
+controle com a média das médias dos demais tratamentos, pode-se ter a
+seguinte hipótese:</div>
+<p><span class="math display">\[\displaystyle{H_0: \mu_c =
+\frac{\mu_{A_1} + \mu_{A_2} + \mu_{B_1} + \mu_{B_2}}{4}},\]</span> que,
+em termos de contraste é dada por</p>
+<p><span class="math display">\[\displaystyle{H_0: 4\mu_c - \mu_{A_1} -
+\mu_{A_2} - \mu_{B_1} - \mu_{B_2} = 0}.\]</span></p>
+<div class="line-block">     Com o objetivo de comparar a média dos dois
+diferentes modos de ação, a média das médias dos fungicidas <span
+class="math inline">\(A_1\)</span> e <span
+class="math inline">\(A_2\)</span> com a média das médias dos fungicidas
+<span class="math inline">\(B_1\)</span> e <span
+class="math inline">\(B_2\)</span>, pode-se ter a seguinte
+hipótese:</div>
+<p><span class="math display">\[\displaystyle{H_0: \frac{\mu_{A_1} +
+\mu_{A_2}}{2} = \frac{ \mu_{B_1} + \mu_{B_2}}{2}},\]</span></p>
+<p>que, em termos de contraste é dada por</p>
+<p><span class="math display">\[\displaystyle{H_0: \mu_{A_1} + \mu_{A_2}
+- \mu_{B_1} - \mu_{B_2} = 0}.\]</span></p>
+<div class="line-block">    Comparar as médias dos dois diferentes
+fungicidas com modo de ação A. Tem-se:</div>
+<p><span class="math display">\[\displaystyle{H_0: \mu_{A_1} =
+\mu_{A_2}},\]</span> que, em termos de contraste é dada por</p>
+<p><span class="math display">\[\displaystyle{H_0: \mu_{A_1} - \mu_{A_2}
+= 0}.\]</span></p>
+<div class="line-block">    Comparar as médias dos dois diferentes
+fungicidas com modo de ação B. Tem-se:</div>
+<p><span class="math display">\[\displaystyle{H_0: \mu_{B_1} =
+\mu_{B_2}},\]</span> que, em termos de contraste é dada por</p>
+<p><span class="math display">\[\displaystyle{H_0: \mu_{B_1} - \mu_{B_2}
+= 0}.\]</span></p>
+<div class="line-block">    Fazendo a soma dos produtos dos coeficientes
+dos pares de contrastes será possível verificar que são ortogonais dois
+a dois.</div>
+<p><strong>Exemplo: Produtividade de milho</strong></p>
+<div class="line-block">     Os dados da Tabela 14 referem-se à
+produtividade de milho (kg/100m<span class="math inline">\(^2\)</span>)
+de quatro variedades diferentes (<span class="math inline">\(I =
+4\)</span>), em um experimento instalado segundo o delineamento
+inteiramente casualizado (DIC) com cinco repetições (<span
+class="math inline">\(J = 5\)</span>).</div>
+<p>Tabela 14: Produtividade do milho em 4 variedades diferentes</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variedades</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>média</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>25</td>
+<td>26</td>
+<td>20</td>
+<td>23</td>
+<td>21</td>
+<td>23</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>31</td>
+<td>25</td>
+<td>28</td>
+<td>27</td>
+<td>24</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>22</td>
+<td>26</td>
+<td>28</td>
+<td>25</td>
+<td>29</td>
+<td>26</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>33</td>
+<td>29</td>
+<td>31</td>
+<td>34</td>
+<td>28</td>
+<td>31</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">     Suponha que as variedades A e B foram
+produzidas por um instituto de pesquisa e as variedades C e D, por
+outro. Forme um grupo de contrastes ortogonais de interesse (o que
+deveria ser feito antes das observações serem obtidas).</div>
+<div class="line-block">     Motivados pela origem das variedades,
+pode-se ter interesse em testar as seguintes hipóteses:</div>
+<p><span class="math inline">\(H_0: \frac{\mu_A + \mu_B}{2} =
+\frac{\mu_C + \mu_D}{2}\)</span> vs <span class="math inline">\(H_1:
+\frac{\mu_A + \mu_B}{2} \neq \frac{\mu_C + \mu_D}{2}\)</span>, que
+consistem em avaliar as médias dos institutos de pesquisa.</p>
+<p><span class="math inline">\(H_0: \mu_A = \mu_B\)</span> vs <span
+class="math inline">\(H_1: \mu_A \neq \mu_B\)</span>, com o objetivo de
+comparar médias de produtividade das variedades do instituto de pesquisa
+1.</p>
+<p><span class="math inline">\(H_0: \mu_C = \mu_D\)</span> vs <span
+class="math inline">\(H_1: \mu_C \neq \mu_D\)</span>, , com o objetivo
+de comparar médias de produtividade de variedades do instituto das
+pesquisa 2.</p>
+<div class="line-block">     Desse modo, as hipóteses de interesse, em
+termos dos contrastes, são:</div>
+<p><span class="math inline">\(H_0: \mu_A + \mu_B - \mu_C - \mu_D =
+0\)</span> vs <span class="math inline">\(H_1: \mu_A + \mu_B - \mu_C -
+\mu_D \neq 0\)</span></p>
+<p><span class="math inline">\(H_0: \mu_A - \mu_B = 0\)</span> vs <span
+class="math inline">\(H_1: \mu_A - \mu_B \neq 0\)</span></p>
+<p><span class="math inline">\(H_0: \mu_C - \mu_D = 0\)</span> vs <span
+class="math inline">\(H_1: \mu_C - \mu_D \neq 0\)</span></p>
+<div class="line-block">     Para testes aquelas hipóteses podemos usar
+o teste F, fazendo a decomposição da soma de quadrados de tratamentos em
+<span class="math inline">\(I-1\)</span> contrastes ortogonais</div>
+<p>Sendo <span class="math inline">\(\mu_A = 23, \; \mu_B = 27, \; \mu_C
+= 26, \; \text{e} \; \mu_D = 31\)</span>, tem-se:</p>
+<p><span class="math inline">\(\hat{L}_1= \hat{\mu}_A + \hat{\mu}_B -
+\hat{\mu}_C - \hat{\mu}_D = 23+27-26-31 = -7\)</span></p>
+<p><span class="math inline">\(\hat{L}_2: \hat{\mu}_A - \hat{\mu}_B =
+23-27 = -4\)</span></p>
+<p><span class="math inline">\(\hat{L}_3: \hat{\mu}_C - \hat{\mu}_D =
+26-31 = -5\)</span></p>
+<p>Somas de quadrados:</p>
+<p><span class="math display">\[\displaystyle{SQ_L =
+\frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} =
+\frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}\]</span></p>
+<p><span class="math display">\[SQ_{L_1} =
+{\frac{[5\times(23+27-26-31)]^2}{5\times[1^2 + 1^2 + (-1)^2 + (-1)^2]}}
+= 61,25\]</span></p>
+<p><span
+class="math display">\[SQ_{L_2}  =  \frac{\left[5\times(23-27)\right]^2}{5\times
+\left[1^2 + (-1)^2\right]} = 40,00\]</span></p>
+<p><span
+class="math display">\[SQ_{L_3}=\frac{\left[5\times(26-31)\right]^2}{5\times
+\left[1^2 + (-1)^2\right]} = 62,50\]</span></p>
+<p>Tabela 15: Quadro da ANOVA para o teste de contrastes ortogonais</p>
+<table>
+<thead>
+<tr class="header">
+<th>F.V.</th>
+<th>gl</th>
+<th>SQ</th>
+<th>QM</th>
+<th>F</th>
+<th>Ftab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tratamentos</td>
+<td>3</td>
+<td>163,75</td>
+<td>54,58</td>
+<td>7,80</td>
+<td>3,24</td>
+</tr>
+<tr class="even">
+<td>(A+B)vs(C+D)</td>
+<td>1</td>
+<td>61,25</td>
+<td>61,25</td>
+<td>8,75</td>
+<td>4,40</td>
+</tr>
+<tr class="odd">
+<td>A vs B</td>
+<td>1</td>
+<td>40,00</td>
+<td>40,00</td>
+<td>5,71</td>
+<td>4,40</td>
+</tr>
+<tr class="even">
+<td>C vs D</td>
+<td>1</td>
+<td>62,50</td>
+<td>62,50</td>
+<td>8,93</td>
+<td>4,40</td>
+</tr>
+<tr class="odd">
+<td>Residuo</td>
+<td>16</td>
+<td>112,00</td>
+<td>7,00</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>19</td>
+<td>275,75</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><img src="cm_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="line-block">     Ao nível de 5% de significância
+(individual), rejeitamos a hipótese {<span class="math inline">\(H_0:
+\text{L}_1 = \mu_A + \mu_B - \mu_c - \mu_D = 0\)</span>}. Logo, há
+evidências para afirmarmos que a média de produtividade das variedades
+vindas do instituto de pesquisa 1 (A e B) difere da média de
+produtividade das variedades vindas do instituto de pesquisa 2 (C e D)
+e, como <span class="math inline">\(\hat{L}_1 = -7 &lt; 0\)</span>,
+temos que a média de produtividade do instituto 2 é maior do que a média
+de produtividade do instituo 1.</div>
+<div class="line-block">     Ao nível de 5% de significância
+(individual), rejeitamos a hipótese {<span class="math inline">\(H_0:
+\text{L}_2 = \mu_A - \mu_B = 0\)</span>}. Logo, há evidências para
+afirmarmos que as médias de produtividade das variedades vindas do
+instituto de pesquisa 1 diferem entre si (<span
+class="math inline">\(\mu_A \neq \mu_B\)</span>). Como <span
+class="math inline">\(\hat{L}_2 = -4 &lt; 0\)</span>, temos que a média
+de produtividade da variedade B é maior do que a média de produtividade
+da variedade A.</div>
+<div class="line-block">     Ao nível de 5% de significância
+(individual), rejeitamos a hipótese {<span class="math inline">\(H_0:
+\text{L}_3 = \mu_C - \mu_D = 0\)</span>}. Logo, há evidências para
+afirmarmos que as médias de produtividade das variedades vindas do
+instituto de pesquisa 2 diferem entre si (<span
+class="math inline">\(\mu_C \neq \mu_D\)</span>). Como <span
+class="math inline">\(\hat{L}_3 = -5 &lt; 0\)</span>, temos que a média
+de produtividade da variedade D é maior do que a média de produtividade
+da variedade D.</div>
+<div class="line-block">     O nível de significância conjunto é dado
+por <span class="math inline">\(100\times[1-(1-0,05)^3] =
+14,26\%\)</span></div>
+</div>
+</div>
+<div id="atividades" class="section level1">
+<h1>Atividades</h1>
+<ol style="list-style-type: decimal">
+<li>Em um estudo foi avaliado o efeito da dieta no tempo de coagulação
+do sangue utilizando uma amostra de 24 animais. Foram aplicadas 04
+dietas.</li>
+</ol>
+<p>O pesquisador precisa avaliar se houve diferença significativa entre
+as dietas a 95% de intervalo de confiança (p&lt;0,05)? Aplique os testes
+de comparação de médias de Tukey, Duncan e Fisher.</p>
+<p>Tabela 1. Influência da dieta no tempo de coagulação do sangue de 24
+animais.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Dietas</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>62</td>
+<td>60</td>
+<td>63</td>
+<td>59</td>
+<td>63</td>
+<td>59</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>63</td>
+<td>67</td>
+<td>66</td>
+<td>71</td>
+<td>64</td>
+<td>65</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>68</td>
+<td>66</td>
+<td>71</td>
+<td>67</td>
+<td>68</td>
+<td>63</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>59</td>
+<td>66</td>
+<td>68</td>
+<td>64</td>
+<td>63</td>
+<td>61</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: decimal">
+<li>Em um estudo foi avaliado a influência das condições de tratamento
+térmico sobre a tensão limite de escoamento de uma liga metálica. Foram
+ensaiadas quatro condições distintas, obtendo-se os resultados mostrados
+na tabela a seguir: Tabela 2. Tensão limite de escoamento em diferentes
+condições de tratamento</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>condição</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>312.9</td>
+<td>300.0</td>
+<td>286.5</td>
+<td>289.0</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>320.0</td>
+<td>330.0</td>
+<td>297.5</td>
+<td>315.0</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>280.0</td>
+<td>290.0</td>
+<td>298.5</td>
+<td>305.0</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>260.0</td>
+<td>270.0</td>
+<td>260.0</td>
+<td>276.5</td>
+</tr>
+</tbody>
+</table>
+<p>O pesquisador deseja verificar quais condições de tratamento térmico
+foram diferentes a um nível de significância de α= 0,05. Realizar o
+teste de Tukey, Duncan e Fisher</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Um pesquisador determinou a concentração de de açúcar no sangue (
+mg/ 100ml ) em 5 raças de animais, sendo 10 amostras por raça. Os
+resultados foram: Tabela 3. Concentração de açúcar no sangue (mg/100 mL)
+de 5 raças de animais</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>124</td>
+<td>111</td>
+<td>117</td>
+<td>104</td>
+<td>142</td>
+</tr>
+<tr class="even">
+<td>116</td>
+<td>101</td>
+<td>142</td>
+<td>128</td>
+<td>139</td>
+</tr>
+<tr class="odd">
+<td>101</td>
+<td>130</td>
+<td>121</td>
+<td>130</td>
+<td>133</td>
+</tr>
+<tr class="even">
+<td>118</td>
+<td>108</td>
+<td>123</td>
+<td>103</td>
+<td>120</td>
+</tr>
+<tr class="odd">
+<td>118</td>
+<td>127</td>
+<td>121</td>
+<td>121</td>
+<td>127</td>
+</tr>
+<tr class="even">
+<td>120</td>
+<td>129</td>
+<td>148</td>
+<td>119</td>
+<td>149</td>
+</tr>
+<tr class="odd">
+<td>110</td>
+<td>122</td>
+<td>141</td>
+<td>106</td>
+<td>150</td>
+</tr>
+<tr class="even">
+<td>127</td>
+<td>103</td>
+<td>122</td>
+<td>107</td>
+<td>149</td>
+</tr>
+<tr class="odd">
+<td>106</td>
+<td>122</td>
+<td>139</td>
+<td>107</td>
+<td>120</td>
+</tr>
+<tr class="even">
+<td>130</td>
+<td>127</td>
+<td>125</td>
+<td>115</td>
+<td>116</td>
+</tr>
+</tbody>
+</table>
+<p>O pesquisador deseja verificar se houve diferença significativa entre
+as raças de animais quais foram essas diferenças a um nível de
+significância de α= 0,05 segundo o teste de Tukey, Duncan e Fisher</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Os dados a seguir, referem-se às alturas, em cm, de mudas de E.
+saligna Sm., de um ensaio inteiramente casualizado, de controle químico
+de ``Damping-off’’ conduzido por T.L. Krugner e P.C.T. Carvalho, ESALQ,
+1971.}</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Tratamentos</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vapan s/ fungicida</td>
+<td>4,65</td>
+<td>5,18</td>
+<td>5,52</td>
+</tr>
+<tr class="even">
+<td>Vapan + Dithane M-45</td>
+<td>4,86</td>
+<td>4,81</td>
+<td>4,51</td>
+</tr>
+<tr class="odd">
+<td>Vapan + Thiran</td>
+<td>4,54</td>
+<td>4,39</td>
+<td>5,20</td>
+</tr>
+<tr class="even">
+<td>Brometo de metila s/ fungicida</td>
+<td>4,55</td>
+<td>5,16</td>
+<td>6,00</td>
+</tr>
+<tr class="odd">
+<td>Brometo de metila + Dithane M-45</td>
+<td>4,73</td>
+<td>5,51</td>
+<td>5,09</td>
+</tr>
+<tr class="even">
+<td>Brometo de metila + Thiran</td>
+<td>4,54</td>
+<td>5,81</td>
+<td>4,77</td>
+</tr>
+<tr class="odd">
+<td>Basamid s/ fungicida</td>
+<td>3,89</td>
+<td>4,74</td>
+<td>5,43</td>
+</tr>
+<tr class="even">
+<td>Basamid + Dithane M-45</td>
+<td>3,91</td>
+<td>5,75</td>
+<td>4,52</td>
+</tr>
+<tr class="odd">
+<td>Basamid + Thiran</td>
+<td>5,61</td>
+<td>5,40</td>
+<td>5,10</td>
+</tr>
+<tr class="even">
+<td>PCNB s/ fungicida</td>
+<td>2,68</td>
+<td>2,65</td>
+<td>2,56</td>
+</tr>
+<tr class="odd">
+<td>PCNB + Dithane M-45</td>
+<td>2,90</td>
+<td>2,71</td>
+<td>2,93</td>
+</tr>
+<tr class="even">
+<td>PCNB + Thiran</td>
+<td>2,78</td>
+<td>2,84</td>
+<td>2,30</td>
+</tr>
+<tr class="odd">
+<td>Testemunha s/ fungicida</td>
+<td>3,48</td>
+<td>2,75</td>
+<td>3,06</td>
+</tr>
+<tr class="even">
+<td>Testemunha + Dithane M-45</td>
+<td>2,65</td>
+<td>2,47</td>
+<td>2,83</td>
+</tr>
+<tr class="odd">
+<td>Testemunha + Thiran</td>
+<td>2,50</td>
+<td>2,60</td>
+<td>2,66</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-alpha">
+<li><p>Fazer a análise exploratória da amostra.</p></li>
+<li><p>Calcular as médias e as variâncias de tratamentos.</p></li>
+<li><p>Fazer a análise de variância concluindo sobre o valor do teste
+F.</p></li>
+<li><p>Fazer todas as comparações pareadas entre médias de tratamentos
+usando o teste de Tukey a um nível <span class="math inline">\(\alpha =
+0,05\)</span> de significância. Tirar conclusões.</p></li>
+<li><p>Fazer todas as comparações pareadas entre médias de tratamentos
+usando o teste de Duncan a um nível <span class="math inline">\(\alpha =
+0,05\)</span> de significância. Tirar conclusões.</p></li>
+</ol>
+<p>Faça o upload da resulução e tire suas <a
+href="https://forms.gle/LQ6mNE4DoR1Fk6px6">aqui</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

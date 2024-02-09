@@ -1,0 +1,318 @@
+---
+title: "Delineamento quadrado latino"
+
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{css, echo = FALSE}
+body {
+     text-align: justify;
+}
+
+```
+
+# Fundamentos
+
+|      O delineamento quadrado latino considera o controle local em dois sentidos e, portanto, assim como o delineamento em blocos, considera os três princípios básicos da experimentação: a repetição, a casualização e o controle local. Um dos sentidos da blocagem é denominado linhas e outro colunas
+
+__Características importantes__
+	
+* O número de linhas ($I$) é igual ao número de colunas ($J$) e igual ao número de tratamento ($K$).  $I \;=\; J \;=\; K$
+ 
+* O número de parcelas no experimento é dado por $I^2$.
+* Cada tratamento ocorre uma única vez em cada linha e uma única vez em cada coluna.
+* O tamanho do experimento cresce rapidamente à medida que aumenta o número de tratamentos.
+* Os mais comumente encontrados são 5 $\times$ 5, 6 $\times$ 6, 7 $\times$ 7 e 8 $\times$ 8.
+
+## Exemplos
+
+ * Em ensaios de campo, um terreno (área experimental) pode apresentar declive em dois sentidos, perpendiculares.
+ 
+ * Ensaios com animais pode-se ter interesse em testar o efeito de rações distintas, porém o número de animais semelhantes pode ser limitado e ainda ter animais de raças e tamanhos distintos.
+
+### LS tree species experiment		
+
+|     O primeiro experimento de campo no mundo a usar um delineamento experimental aleatório estabelecido pela Comissão Florestal em março de 1929, em uma encosta perto da floresta de Beddgelert, planejado por Fisher.
+(The Forestry Commission) 
+
+[KERR, 2014](https://academic.oup.com/forestscience/article/60/6/1194/4583920)
+
+		
+![Experimento de Fisher](figs\LatinSquareFisher.jpg)		
+
+# Croqui: comparação entre DIC, DBC e DQL
+
+
+```{r , echo = FALSE , warning = FALSE}
+library(gridExtra)
+library(agricolae)
+(tratdbc <- paste("T", 1:9, sep =""))
+Casualizando <- design.rcbd(trt = tratdbc,
+                            r = 3)
+
+library(agricolaeplotr)
+grafico2 <- plot_rcdb(Casualizando,
+          factor_name = "tratdbc")
+
+trt = LETTERS[1:4]
+delineamento <- design.crd(trt,
+                           r = 5,
+                           serie = 0)
+grafico1 <- plot_design_crd(delineamento,
+                ncols = 4,
+                nrows = 5)
+
+(Variedades <- LETTERS[1:5])
+(Planejamento <- design.lsd(Variedades,
+                            serie=2))
+
+
+grafico3 <- plot_latin_square(Planejamento,
+                  factor_name = "Variedades",
+                  labels = "Variedades")
+
+grid.arrange(
+          grafico1,
+          grafico2,
+          grafico3,
+          ncol = 1,
+          nrow = 3)
+```
+
+
+
+
+# Análise dos dados
+
+## Modelo estatístico
+
+$$y_{ij(k)} = \mu + l_i + c_j + \tau_{k(ij)} + e_{ij(k)}, \quad i=1, \ldots, I; j=1, \ldots, I, k=1, \ldots, I,$$
+
+em que:
+
+* $y_{ij(k)}$ é o valor observação na $i-$ésima linha e na $j$-ésima coluna (que recebeu o $k$-ésimo tratamento);
+* $\mu$ é uma constante comum a todas as observações;
+* $l_i$ é o efeito da $i-$ésima linha;
+* $c_j$ é o efeito da $j$-ésima coluna;
+* $\tau_{k(ij)}$ é o efeito do $k$-ésimo tratamento, e
+* $e_{ijk}$ é o erro experimental, tal que $e_{ijk} \sim N(0, \sigma^2)$.
+
+__DQL: Restrições usuais e estimadores de mínimos quadrados__
+
+Restrições
+
+$\sum_{k=1}^{I} \hat{\tau}_k = 0$
+
+$\sum_{i=1}^{I} \hat{l}_i = 0$
+
+$\sum_{j=1}^{I} \hat{c}_j = 0$
+		
+		
+Soluções de mínimos quadrados
+
+
+$\hat{\mu} = \bar{y}$
+
+$\hat{\tau}_k = \bar{y}_k - \bar{y}$
+
+$\hat{l}_i = \bar{y}_i - \bar{y}$
+
+$\hat{c}_j = \bar{y}_j - \bar{y}$
+	
+Hipóteses de interesse
+
+$H_0:$ $\mu_{Trat_1} = \mu_{Trat_2} = \ldots = \mu_{Trat_I}$
+
+$H_1:$ $\text{pelo menos duas médias diferem entre si}$
+	
+
+Tabela 1. ANOVA
+
+F.V.       | gl         | SQ    | QM          | F          |
+-----------|------------|-------|-------------|------------|
+Linhas     |$I-1$       | SQL   |SQL/glL      |QML/QMRes   |
+Colunas    |$I-1$       | SQC   |SQC/glC      |QMC/QMRes   |
+Tratamentos|$I-1$       | SQTra |SQTrat/glTrat|QMTrat/QMRes|
+Resíduo    |$(I-1)(I-2)$| SQRes |QMRes        |            |
+Total      |$I^2-1$     |SQTotal|             |            |
+
+## Exemplo
+
+|      Considere os dados de um experimento instalado de acordo com o delineamento quadrado latino, para avaliar a produção de cana-de-açúcar em kg/parcela, de cinco variedades, A = CO290, B = CO294, C = CO297, D = CO299 e E = CO295. O controle feito por meio dos blocos horizontais e verticais teve por objetivo eliminar influências devidas a diferenças de fertilidade em duas direções.
+
+
+Tabela 2. Produção de 5 variedades de cana-de-açúcar 
+
+Linhas | 1     | 2     | 3     | 4     | 5     | Totais|
+-------|-------|-------|-------|-------|-------|-------|
+		1  |432 (D)|518 (A)|458 (B)|583 (C)|331 (E)| 2322  |
+		2  |724 (C)|478 (E)|524 (A)|550 (B)|400 (D)| 2676  |
+		3  |489 (E)|384 (B)|556 (C)|297 (D)|420 (A)| 2146  |
+		4  |494 (B)|500 (D)|313 (E)|486 (A)|501 (C)| 2294  |
+		5  |515 (A)|660 (C)|438 (D)|394 (E)|318 (B)| 2325  |
+Totais | 2654  | 2540  | 2289  | 2310  | 1970  | 11763 |
+		
+$T_A = 2463 \quad T_B = 2204 \quad T_C = 3024 \quad T_D = 2067 \quad T_E = 2005$
+
+Soma de quadrados total : 
+
+$$SQ_{Total} = \sum_{ij} y_{ij(k)}^2 - \frac{\left(\sum_{ij} y_{ij(k)}\right)^2}{I^2}\\
+= 432^2 + 518^2 + \ldots + 318^2 - \frac{11763^2}{25}\\
+= 257724,20$$
+
+
+Soma de quadrados linhas:
+
+$$SQ_{Linhas} = \frac{1}{I}\sum_{i} y_{i.(k)}^2 - \frac{\left(\sum_{ij} y_{ij(k)}\right)^2}{I^2}\\
+	= \frac{1}{5}\left(2322^2 + 2676^2 + 2146^2 + 2294^2 + 2325^2\right) - \frac{11763^2}{25}\\
+	= 30480,64$$
+
+Soma de quadrados de colunas
+
+$$SQ_{Colunas} = \frac{1}{I}\sum_{j} y_{.j(k)}^2 - \frac{\left(\sum_{ij} y_{ij(k)}\right)^2}{I^2}\\
+	= \frac{1}{5}\left(2654^2 + 2540^2 + 2289^2 + 2310^2 + 1970^2\right) - \frac{11763^2}{25}\\
+	= 55640,64$$
+
+Soma de quadrados de tratamentos
+
+$$SQ_{Tratamentos} = \frac{1}{I}\sum_{k} y_{..k}^2 - \frac{\left(\sum_{ij} y_{ij(k)}\right)^2}{I^2}\\
+	= \frac{1}{5}\left(2463^2 + 2204^2 + 3024^2 + 2067^2 + 2005^2\right) - \frac{11763^2}{25}\\
+	= 137488,20$$
+
+Soma de quadrados de resíduos
+
+$$SQ_{\text{Residuo}} = SQ_{\text{Total}} - SQ_{\text{Linhas}} - SQ_{Colunas} - SQ_{Trat} \\
+	= 257724,20 - 30480,64 - 55640,64 - 137488,20\\
+	= 34114,72$$
+
+Quadrado médio da linha 
+
+$$QM_{Linhas} = \frac{SQ_{Linhas}}{gl_{Linhas}} \\
+	= \frac{30480,64}{4} \\
+	= 7620,16$$
+
+Quadrado médio da coluna
+
+$$QM_{Colunas} = \frac{SQ_{Colunas}}{gl_{Colunas}} \\
+	= \frac{55640,64}{4}\\
+	= 13910,16\\$$
+
+Quadrado médio do tratamento
+
+$$QM_{Tratamentos} = \frac{SQ_{Tratamentos}}{gl_{Tratamentos}} \\
+	= \frac{137488,20}{4} \\
+	= 34372,06\\$$
+
+Quadrado médio do resíduo
+
+$$QM_{Residuo} = \frac{SQ_{Residuo}}{gl_{Residuo}} \\
+	= \frac{34114,72}{12}\\
+	= 2842,89\\$$
+	
+Tabela 3. Quadro da Anova para o experimento de produção de cana-de-açúcar
+
+F.V.       |gl | SQ      |QM      | Fcal  |Ftab|
+-----------|---|---------|--------|-------|----|
+Linhas     |  4|30480,64 |7620,16 |       |    |
+Colunas    |4  |55640,64 |13910,16|       |    |
+Tratamentos|  4|137488,20|34372,06|12,09  |3,26|
+Resíduo    |12 |34114,72 |2842,89 |       |    |
+Total      |24 |257724,20|        |       |    |
+
+__Distribuição F__
+
+```{r, echo=FALSE}
+library(RcmdrMisc)
+local({
+  .x <- seq(0.005, 10.344, length.out=1000)  
+  plotDistr(.x, df(.x, df1=4, df2=12), cdf=FALSE, xlab="x", ylab="Density", main=paste("F Distribution:  Numerator df = 4, Denominator df = 12"), 
+  regions=list(c(0, 3.26)), col=c('#008000', '#BEBEBE'), legend.pos='topright')
+})
+
+```
+
+
+
+|     Como Fcal> Ftab, ao nível de 5% de significância, há evidências para rejeitarmos $H_0$. Logo, não podemos afirmar que todas as médias de produção para os diferentes tratamentos são iguais.
+
+
+### Teste de Tukey
+	
+Hipóteses:
+	
+*	$H_0$: $\mu_k = \mu_{k'} \Rightarrow \mu_k - \mu_{k'} = 0$\\
+*	$H_1$: $\mu_k \neq \mu_{k'} \Rightarrow\mu_k - \mu_{k'} \neq 0$\\
+	
+$$\Delta = q_{(\alpha, I, glRes)}\sqrt{\frac{\mbox{QM Resíduo}}{J}} = 4,51\sqrt{\frac{2842,89}{5}} = 107,54$$
+	
+|      A partir do teste de Tukey, ao nível de 5% de significância, podemos afirmar que a produção média de cana-de-açúcar da variedade C difere das demais produções médias, sendo a da variedade C maior, e as demais produções médias não apresentam diferença significativa. Letras diferentes indicam diferenças significativas.
+
+Tabela 4. Classificação das médias pelo teste de Tukey
+
+Médias                |classificação|
+----------------------|-------------|
+$\hat{\mu}_C = 604,8$ |            a|
+$\hat{\mu}_A = 492,6$ |            b|
+$\hat{\mu}_B = 440,8$ |            b|
+$\hat{\mu}_D = 413,4$ |            b|
+$\hat{\mu}_E = 401,0$ |            b| 
+		
+
+
+# Atividades
+
+Os dados que se seguem referem-se à produção de mandioca, obtidos de um experimento envolvendo quatro sistemas de plantio de manivas de mandioca, instalado no delineamento em quadrado latino 4x4. Esse experimento foi conduzido pela Seção de Raízes e Tubérculos do Instituto Agronômico de Campinas. Os tratamentos envolvidos apresentavam as seguintes características:
+
+* A – Manivas com 0,30 metros, plantadas pelo sistema comum;
+* B – Manivas com 0,30 metros, plantadas com 0,15 metros enterradas e inclinadas;
+* C – Manivas com 0,30 metros, plantadas com 0,15 metros enterradas, inclinadas e em camaleão;
+* D – Manivas com 0,30 metros, plantadas na horizontal na superfície do camaleão. 
+
+Linhas|         |         |          |   Colunas|
+------|---------|---------|----------|----------|
+.     |1        | 2       | 3        |         4|
+1     |122,6 (A)| 98,8 (D)| 122,6 (B)| 102,5 (C)|
+2     |126,3 (B)|110,3 (A)| 110,1 (C)| 53,7 (D) |
+3     |83,1 (D) |106,4 (C)| 100,6 (A)| 93,4 (B) |
+4     |96,7 (C) |107,2 (B)| 75,7 (D) |80,2 (A)  |
+
+1) Faça o croqui do planejamento de um experimento com as características do experimento em questão. 
+
+2) Com base nos resultados do experimento apresentados na Tabela 2 e considerando o nível de significância 5%:
+a) Ajuste o modelo e verifique as pressuposições do modelo;
+b) Faça a análise de variância e conclua;
+c) Compare as médias dos tratamentos usando o teste Tukey e tire conclusões;
+d) Elabore um grupo de contrastes ortogonais de interesse prático e teste-os.
+
+3) A análise apresentada a seguir é referente aos dados de um experimento instalado para avaliar o efeito do tempo de castração (7, 21, 56 dias ou não castração) no ganho de peso de suínos. Com base no quadro da ANOVA apresentado a segui, pede-se:
+
+F.V.       |gl | SQ      |QM      | Fcal  |Ftab|
+-----------|---|---------|--------|-------|----|
+Linhas     |   |436,555  |        |       |    |
+Colunas    |   |148,945  |        |       |    |
+Tratamentos|   |913,575  |        |       |4,75|
+Resíduo    |   |412,995  |        |       |    |
+Total      |   |1912,070 |        |       |    |
+			
+a) complete o quadro da anova
+
+### Resolução
+
+3) 
+F.V.       |gl | SQ      |QM      | Fcal  |Ftab|
+-----------|---|---------|--------|-------|----|
+Linhas     | 3 |436,555  |        |       |    |
+Colunas    | 3 |148,945  |        |       |    |
+Tratamentos| 3 |913,575  |304,52  |4,42   |4,75|
+Resíduo    |6  |412,995  |68,33   |       |    |
+Total      |15 |1912,070 |        |       |    |
+
+Ao nível de 5% de significância, há evidências para rejeitarmos $H_0$. Logo, não podemos afirmar que todas as médias de ganho de peso para os diferentes tratamentos são iguais.
+
+Faça o upload da resulução e tire suas [aqui](https://forms.gle/LQ6mNE4DoR1Fk6px6)

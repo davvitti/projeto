@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Delineamento inteiramente casualizado</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Estatística experimental</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Sobre</a>
+</li>
+<li>
+  <a href="intro.html">Introdução</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Capítulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="dic.html">Delineamento inteiramente casualizado</a>
+    </li>
+    <li>
+      <a href="cm.html">Comparação de médias</a>
+    </li>
+    <li>
+      <a href="rp.html">Regressão polinomial</a>
+    </li>
+    <li>
+      <a href="anova.html">Pressuposições da Anova</a>
+    </li>
+    <li>
+      <a href="dbc.html">Delineamento blocos casualizados</a>
+    </li>
+    <li>
+      <a href="dql.html">Delineamento quadrado latino</a>
+    </li>
+    <li>
+      <a href="fat.html">Esquema fatorial de tratamentos</a>
+    </li>
+    <li>
+      <a href="parcs.html">Parcelas subdivididas</a>
+    </li>
+    <li>
+      <a href="grups.html">Grupos de experimentos</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://davivitti.shinyapps.io/atividades/">Atividades</a>
+</li>
+<li>
+  <a href="https://forms.gle/LQ6mNE4DoR1Fk6px6">Dúvidas?</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Delineamento inteiramente casualizado</h1>
+
+</div>
+
+
+<style type="text/css">
+body {
+     text-align: justify;
+}
+
+</style>
+<div id="fundamentos" class="section level1">
+<h1>Fundamentos</h1>
+<div class="line-block">     O delineamento inteiramente casualizado
+(DIC) é o mais simples dos delineamentos, pois considera apenas dois dos
+princípios básicos da experimentação: a repetição e a casualização.
+Neste, os tratamentos são aleatoriamente atribuídos ao material
+experimental, sem o esforço de se restringir os tratamentos a alguma
+porção de área, material ou espaço. Ainda como característica, como não
+há uso do controle local o número de repetições por tratamento pode
+variar.É geralmente utilizado quando a variação do material experimental
+é relativamente pequena, o que geralmente ocorre em laboratórios e casas
+de vegetação.</div>
+<div class="line-block">     Como vantagens de sua utilização temos que
+é um experimento de fácil planejamento e que permite o número máximo de
+graus de liberdade do Resíduo. Em termos de análise é a mais simples
+quando comparado aos demais delineamentos experimentais e não
+apresentará confundimento caso os tratamentos tenham números diferentes
+de repetições. Entretanto, como desvantagens temos que o delineamento
+inteiramente casualizado é adequado aos experimentos com baixo número de
+tratamentos e material experimental homogêneo, o que nem sempre se
+consegue. Quando um grande número de tratamentos é utilizado, há um
+crescimento no material experimental, que pode inflacionar a variação
+experimental. Nesses casos o Delineamento Inteiramente Casualizado não é
+indicado.</div>
+<div class="line-block"><br />
+<br />
+</div>
+<div id="exemplo-vinhedo" class="section level2">
+<h2>Exemplo: Vinhedo</h2>
+<div class="float">
+<img src="figs/CRD.png"
+alt="Photos and illustrations by Hemant Gohil." />
+<div class="figcaption">Photos and illustrations by Hemant Gohil.</div>
+</div>
+<p>Figura 1: Dois experimentos em DIC com quatro repetições de um
+tratamento (linhas amarelas) e de um controle (linhas azuis), sendo um
+em um vinhedo pequeno (A) e outro em um vinhedo médio (C). Fonte: Hemant
+Gohil.</p>
+<div class="line-block">     Considerações:</div>
+<ul>
+<li><p>Note que os exemplos consideram uma linha de bordadura entre as
+linhas.</p></li>
+<li><p>Em alguns casos o mesmo tratamento ocupa parcelas vizinhas
+.</p></li>
+<li><p>Os croquis para os ensaios mostrados em A e C são exibidos em B e
+D, respectivamente.</p></li>
+</ul>
+<div class="line-block"><br />
+<br />
+</div>
+</div>
+</div>
+<div id="obtendo-um-croqui-para-um-dic" class="section level1">
+<h1>Obtendo um croqui para um DIC</h1>
+<div class="line-block">     Para obtermos um croqui para um experimento
+com <span class="math inline">\(I\)</span> tratamentos em um DIC, sendo
+o <span class="math inline">\(i\)</span>-ésimo tratamento repetido <span
+class="math inline">\(n_i\)</span> vezes e o número total de parcelas
+<span class="math inline">\(n=\sum_{i=1}^I n_i \text{(1)}\)</span></div>
+<ol style="list-style-type: lower-roman">
+<li>Enumerar as parcelas 1, 2, . . . , <span
+class="math inline">\(n\)</span></li>
+<li>Criar o delineamento sistemático, ou seja, alocar o tratamento 1 às
+parcelas 1, 2, . . . , <span class="math inline">\(n_1\)</span> alocar o
+tratamento 2 às parcelas <span class="math inline">\(n_1\)</span> + 1,
+<span class="math inline">\(n_1\)</span> + 2, . . . , <span
+class="math inline">\(n_1\)</span> + <span
+class="math inline">\(n_2\)</span> e assim até as repetições do
+tratamento <span class="math inline">\(I\)</span>.</li>
+<li>Escolha uma permutação de 1, 2, . . . , <span
+class="math inline">\(n\)</span> e aplique ao delineamento.</li>
+</ol>
+<div class="line-block"><br />
+<br />
+</div>
+<div id="exemplo" class="section level2">
+<h2>Exemplo</h2>
+<div class="line-block">     Suponha que desejamos comparar a
+produtividade de três variedades de soja, com três, quatro e três
+repetições respectivamente. O plano de casualização para o delineamento
+sistemático é dado por:</div>
+<table>
+<thead>
+<tr class="header">
+<th>Ordem Padrão</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Variedade</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>C</td>
+<td>C</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<p>Uma permutação:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parcelas</th>
+<th>7</th>
+<th>1</th>
+<th>8</th>
+<th>10</th>
+<th>3</th>
+<th>2</th>
+<th>4</th>
+<th>6</th>
+<th>9</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ordem Padrão</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>E o plano de casualização é dado por:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Parcelas</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Variedade</td>
+<td>B</td>
+<td>A</td>
+<td>C</td>
+<td>C</td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>B</td>
+<td>C</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block"><br />
+<br />
+</div>
+</div>
+</div>
+<div id="análise-dos-dados" class="section level1">
+<h1>Análise dos dados</h1>
+<div class="line-block">     Entende-se como objetivo inicial de um
+experimento a verificação dos efeitos de tratamentos. Aqui será
+utilizada a Análise de Variância (ANOVA) para tal verificação. A ANOVA é
+utilizada na comparação de médias de dois ou mais tratamentos ou teste
+para a variância dos tratamentos, por meio do teste F (Fisher). Trata-se
+de uma extensão do teste t de Student, permitindo que o pesquisador
+compare qualquer número de médias, quando o efeito de tratamentos é
+fixo.</div>
+<div class="line-block"><br />
+<br />
+</div>
+<div id="modelo-estatistico" class="section level2">
+<h2>Modelo estatistico</h2>
+<div class="line-block">     O modelo estatístico para a análise dos
+dados oriundos de um DIC com um único fator de tratamentos é dado pela
+<a href="">Equação 2</a>.</div>
+<p><span class="math display">\[\begin{equation}
+y_{ij} = \mu + \tau_i + e_{ij} = \mu_i + e_{ij}  \text{(2)}
+
+\end{equation}\]</span></p>
+<p>em que:</p>
+<ul>
+<li><p><span class="math inline">\(y_{ij}\)</span> é o valor observado
+na j-ésima repetição do iésimo tratamento, com:</p></li>
+<li><p><span class="math inline">\(i = 1, ... , I\)</span> e</p></li>
+<li><p><span class="math inline">\(j = 1, ... , n_i\)</span></p></li>
+<li><p><span class="math inline">\(\mu\)</span> é uma constante inerente
+a todas as observações, geralmente a média geral,</p></li>
+<li><p><span class="math inline">\(\tau_i\)</span> é o efeito do iésimo
+tratamento,</p></li>
+<li><p><span class="math inline">\(e_{ij}\)</span> é o erro
+experimental, tal que <span class="math inline">\(e_{ij}
+\overset{iid}{\sim} N(0,\sigma^2)\)</span>.</p></li>
+</ul>
+<div class="line-block">     Realizando-se a ANOVA, testamos as
+hipóteses:</div>
+<p><span class="math display">\[H_0 : \tau_{1} = \tau_{2} = ... =
+\tau_{I} = 0\]</span></p>
+<p><span class="math display">\[H_1 = H_a : \tau_{i} \neq 0\]</span></p>
+<div class="line-block">     Havendo uma reparametrização do modelo
+apresentado na <a href="#id_#%20Modelo%20estatistico">equação 2</a>, tal
+que <span class="math inline">\(\mu + \tau_i = \alpha_i\)</span> em que
+<span class="math inline">\(\alpha_i\)</span> é a média do iésimo
+tratamento, é:</div>
+<p><span class="math display">\[y_{ij} = \alpha_i + e_{ij}
+\text{(3)}\]</span></p>
+<div class="line-block">     As hipóteses de interesse passam a
+ser:</div>
+<p><span class="math display">\[H_0 : \alpha_1 = \alpha_2 = ... =
+\alpha_I = \mu\]</span></p>
+<p><span class="math display">\[H_1 = Ha : \text{pelo um contraste de
+médias difere de zero}\]</span>.</p>
+<div class="line-block">     Neste momento assumiremos que as
+pressuposições de normalidade e independência dos erros, bem a
+homogeneidade de suas variâncias garantidas. Assim, assumimos que eij
+corresponde a uma realização da variável <span
+class="math inline">\(E_{ij}\)</span> , tal que <span
+class="math inline">\(e_{ij} \overset{iid}{\sim} N(0,\sigma^2)\)</span>
+e os demais termos no <a href="">equação (3)</a> são fixos. Cabe
+sailentar que o modelo citado é o modelo maximal, ou seja, aquele modelo
+mais complicado a ser considerado na análise.<br />
+     Desse modo, a esperança da variável aleatória <span
+class="math inline">\(Y_{ij}\)</span> será</div>
+<p><span class="math display">\[E(Y_{ij}) = E(\mu + \tau_i + E_{ij} ) =
+\mu + \tau_i + 0 = \mu + \tau_i \text(4)\]</span></p>
+<div class="line-block"><br />
+<br />
+</div>
+</div>
+<div id="análise-de-variância" class="section level2">
+<h2>Análise de variância</h2>
+<div class="line-block">    A proposta da ANOVA consiste em decompor a
+variância total dos dados em parte atribuída aos efeitos de tratamentos
+e parte ao acaso.</div>
+<p>Tabela 1: Demonstração sobre fontes de variação e graus de
+liberdade</p>
+<table>
+<thead>
+<tr class="header">
+<th>Fontes de Variação</th>
+<th align="center">Graus de liberdade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Total</td>
+<td align="center"><span class="math inline">\(n\text{-}1\)</span></td>
+</tr>
+<tr class="even">
+<td>Tratamentos</td>
+<td align="center"><span class="math inline">\(I\text{-}1\)</span></td>
+</tr>
+<tr class="odd">
+<td>Resíduo</td>
+<td align="center"><span class="math inline">\(n\text{-}I\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">    Sabemos que a variância dos dados é dada
+por:</div>
+<p><span class="math display">\[\text{Variância} = \sum _{ij}
+\frac{(yij−\bar{y})^2}{(n−1)} (\text{expressão 1})\]</span></p>
+<p><span class="math display">\[\text{variância} =
+\displaystyle{\frac{\text{SQ}}{\text{gl}}}(\text{expressão
+2})\]</span></p>
+<p><span class="math display">\[\text{F} =
+\displaystyle{\frac{\text{QM}_{\text{Trat}}}{\text{QM}_{\text{Resíduo}}}}\]</span></p>
+<p>Retomando as hipóteses</p>
+<p><span class="math inline">\(H_0 : \mu_1 = \mu_2 = ... = \mu_I =
+0\)</span></p>
+<p><span class="math inline">\(H_1 = Ha\)</span>: pelo um contraste de
+médias difere de zero.Denotamos por Soma de Quadrados do Total (SQ
+Total) o numerador da <a href="#exp3">expressão 2</a>. Observe que a
+decomposição mencionada anteriormente será:</p>
+<p><span
+class="math display">\[\displaystyle{\sum_{i=1}^I\sum_{j=1}^Jy_{ij}^2\text-\frac{\left(\sum_{i=1}^I\sum_{j=1}^Jy_{ij}\right)^2}{I\times
+J}}(\text{expressão 3})\]</span></p>
+<div class="line-block">    Em que SQ Tratamentos e SQ Resíduo
+correspondem às Soma de Quadrados de Tratamentos e Soma de Quadrados de
+Resíduo, respectivamente.<br />
+    As expressões apresentadas em 4 e 5, podem ser reescritas conforme
+segue.</div>
+<p><span class="math display">\[\displaystyle{\frac{1}{J}\sum_{i=1}^I
+T_i^2 \text-
+\frac{\left(\sum_{i=1}^I\sum_{j=1}^Jy_{ij}\right)^2}{I\times
+J}}(\text{expressão 4})\]</span></p>
+<div class="line-block">    A SQ Resíduo pode ser obtida por diferença,
+ou seja,</div>
+<p>SQ Resíduo = SQ Total - SQ Tratamentos.</p>
+<div class="line-block">    Para encontrarmos a estatística apropriada
+para o teste F temos que obter as Esperanças dos Quadrados Médios
+relacionados a cada fonte de variação na ANOVA.<br />
+    Os quadrados médios, denotados usualmente por QM, são definidos pelo
+quociente entre a soma de quadrados e o respectivo número de graus de
+liberdade relacionados a uma fonte de varição, isto é:</div>
+<p><span class="math display">\[\text{QM}_{\text{Trat}} =
+\displaystyle{\frac{\text{SQ}_\text{Trat}}{\text{gl}_\text{Trat}}}\]</span></p>
+<div class="line-block">    Rejeita-se <span
+class="math inline">\(H_0\)</span> se <span
+class="math inline">\(F_{cal} \geq F_{tab_{(\alpha, I-1,
+I(J-1))}}\)</span>, em que <span class="math inline">\(\alpha\)</span> é
+o nível de significância, <span class="math inline">\(I-1\)</span> é o
+número de graus de liberdade do numerador e <span
+class="math inline">\(I(J-1)\)</span> é o número de graus de liberdade
+do denominador.</div>
+<p><a href="https://docs.ufpr.br/~vayego/pedeefes/tab_sned.pdf">Tabela
+F</a></p>
+<div class="float">
+<img src="figs/tabelaf.PNG" alt="Tabela F" />
+<div class="figcaption">Tabela F</div>
+</div>
+<div class="line-block"><br />
+<br />
+</div>
+</div>
+<div id="coeficiente-de-variação" class="section level2">
+<h2>Coeficiente de variação</h2>
+<div class="line-block">    O número de repetições pode estar associado
+ao número de graus de liberdade do resíduo ; <span
+class="math display">\[\text{gl}_{\text{Res}} \geq 12\]</span><br />
+   O CV é adimensional, pode-se comparar a dispersão de variáveis com
+diferentes unidades de medida.</div>
+<p><span class="math display">\[\displaystyle{\text{CV}_{\%} =
+100\frac{\hat{\sigma}}{\hat{\mu}} =
+100\frac{\sqrt{\text{QM}_{\text{Res}}}}{\bar{y}}}\]</span></p>
+<ul>
+<li><p>CV <span class="math inline">\(&lt;\)</span> 10% : baixo</p></li>
+<li><p>10% <span class="math inline">\(&lt;\)</span> CV <span
+class="math inline">\(&gt;\)</span> 20% :médio</p></li>
+<li><p>20% <span class="math inline">\(&lt;\)</span> CV <span
+class="math inline">\(&gt;\)</span> 30% :alto</p></li>
+<li><p>CV <span class="math inline">\(&gt;\)</span> 30% : muito
+alto</p></li>
+</ul>
+<div class="line-block"><br />
+<br />
+</div>
+</div>
+<div id="exemplo-1" class="section level2">
+<h2>Exemplo</h2>
+<div class="line-block">    Considere os dados abaixo referentes à
+produtividade de milho (kg/100m<span class="math inline">\(^2\)</span>)
+de quatro diferentes variedades, em um experimento instalado segundo o
+delineamento inteiramente casualizado, com cinco repetições.</div>
+<p>Tabela 2: produtividade de milho (kg/100m<span
+class="math inline">\(^2\)</span>) de quatro diferentes variedades</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">(Variedades)</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>total</th>
+<th>média</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">A</td>
+<td>25</td>
+<td>26</td>
+<td>20</td>
+<td>23</td>
+<td>21</td>
+<td>115</td>
+<td>23,00</td>
+</tr>
+<tr class="even">
+<td align="center">B</td>
+<td>31</td>
+<td>25</td>
+<td>28</td>
+<td>27</td>
+<td>24</td>
+<td>135</td>
+<td>27,00</td>
+</tr>
+<tr class="odd">
+<td align="center">C</td>
+<td>22</td>
+<td>26</td>
+<td>28</td>
+<td>25</td>
+<td>29</td>
+<td>130</td>
+<td>26,00</td>
+</tr>
+<tr class="even">
+<td align="center">D</td>
+<td>33</td>
+<td>29</td>
+<td>31</td>
+<td>34</td>
+<td>28</td>
+<td>155</td>
+<td>31,00</td>
+</tr>
+</tbody>
+</table>
+<p>Tabela 3: nomenclatura de dados</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">(Variedades)</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">V1</td>
+<td>y11</td>
+<td>y12</td>
+<td>y13</td>
+<td>y14</td>
+<td>y15</td>
+<td>y1· = T1</td>
+</tr>
+<tr class="even">
+<td align="center">V2</td>
+<td>y21</td>
+<td>y22</td>
+<td>y23</td>
+<td>y24</td>
+<td>y25</td>
+<td>y2· = T2</td>
+</tr>
+<tr class="odd">
+<td align="center">V3</td>
+<td>y31</td>
+<td>y32</td>
+<td>y33</td>
+<td>y34</td>
+<td>y35</td>
+<td>y3· = T3</td>
+</tr>
+<tr class="even">
+<td align="center">V4</td>
+<td>y41</td>
+<td>y42</td>
+<td>y43</td>
+<td>y44</td>
+<td>y45</td>
+<td>y4· = T4</td>
+</tr>
+</tbody>
+</table>
+<p>Análise descritiva:</p>
+<p>Tabela 4: Análise descritivas dos dados</p>
+<table>
+<thead>
+<tr class="header">
+<th>Análise</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Soma</td>
+<td>115,00</td>
+<td>135,00</td>
+<td>130,00</td>
+<td>155,00</td>
+</tr>
+<tr class="even">
+<td>Média</td>
+<td>23,00</td>
+<td>27,00</td>
+<td>26,00</td>
+<td>31,00</td>
+</tr>
+<tr class="odd">
+<td>Variância</td>
+<td>6,50</td>
+<td>7,50</td>
+<td>7,50</td>
+<td>6,50</td>
+</tr>
+<tr class="even">
+<td>Desvio-padrão</td>
+<td>2,55</td>
+<td>2,74</td>
+<td>2,74</td>
+<td>2,55</td>
+</tr>
+</tbody>
+</table>
+<p>Soma de Quadrados total</p>
+<p><span class="math display">\[\text{SQ}_{\text{Total}} =
+\displaystyle{\sum_{i=1}^4\sum_{j=1}^5y_{ij}^2 \text{-}
+\frac{\left(\sum_{i=1}^4\sum_{j=1}^5y_{ij}\right)^2}{4\times5}}\]</span></p>
+<p><span class="math display">\[ = \displaystyle{25^2 + 26^2 + \ldots +
+28^2 \text{-} \frac{535^2}{20}}
+= 275,75\]</span></p>
+<p>Soma de Quadrados de tratamentos</p>
+<p><span class="math display">\[\text{SQ}_{\text{Trat}} =
+\displaystyle{\frac{1}{5}\sum_{i=1}^4 T_i^2 \text{-}
+\frac{\left(\sum_{i=1}^4\sum_{j=1}^5y_{ij}\right)^2}{4\times5}}\]</span></p>
+<p><span class="math display">\[= \displaystyle{\frac{1}{5}\left(115^2 +
+135^2 + 130^2 + 155^2\right) - \frac{535^2}{20}}= 163,75\]</span></p>
+<p>Soma de Quadrados do Resíduo</p>
+<p><span class="math display">\[\text{SQ}_\text{Resíduo} =
+\text{SQ}_{\text{Total}} \text{-} \text{SQ}_{\text{Trat}}\]</span> <span
+class="math display">\[= 275,75 - 163,75 = 112,00\]</span></p>
+<p>Quadrado médio tratamentos</p>
+<p><span class="math display">\[\text{QM}_{\text{Trat}} =
+\displaystyle{\frac{\text{SQ}_{\text{Trat}}}{\text{gl}_{\text{Trat}}}}
+= \displaystyle{\frac{163,75}{3}} = 54,5833\]</span></p>
+<p>Quadrado médio do resíduo</p>
+<p><span class="math display">\[\text{QM}_{\text{Resíduo}} =
+\displaystyle{\frac{\text{SQ}_{\text{Resíduo}}}{\text{gl}_{\text{Resíduo}}}}=\displaystyle{\frac{112,00}{16}}=
+7,0000\]</span></p>
+<p>F calculado</p>
+<p><span class="math display">\[\text{F} =
+\displaystyle{\frac{\text{QM}_{\text{Trat}}}{\text{QM}_{\text{Resíduo}}}}=\displaystyle{\frac{54,5833}{7,0000}}=
+7,80\]</span></p>
+<p>Tabela 5: ANOVA</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="26%" />
+<col width="25%" />
+<col width="20%" />
+<col width="6%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fontes</th>
+<th>Graus de liberdade</th>
+<th>Soma de Quadrados</th>
+<th>Quadrado Médio</th>
+<th>Fcal</th>
+<th>Ftab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tratamentos</td>
+<td>3</td>
+<td>163,75</td>
+<td>54,5833</td>
+<td>7,80</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>resıduo</td>
+<td>16</td>
+<td>112,00</td>
+<td>7,0000</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>19</td>
+<td>275,75</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>F tabelado:</p>
+<pre class="r"><code># Defina o nível de significância desejado (por exemplo, 0.05 para um nível de 5%)
+nivel_de_significancia &lt;- 0.05
+
+# Defina os graus de liberdade do numerador (df1) e do denominador (df2)
+df1 &lt;- 3  # Graus de liberdade do numerador
+df2 &lt;- 16 # Graus de liberdade do denominador
+
+# Encontre o valor crítico da distribuição F para o nível de significância especificado
+valor_critico &lt;- qf(1 - nivel_de_significancia, df1, df2)
+
+# Imprima o valor crítico
+cat(&quot;Valor crítico da distribuição F:&quot;, valor_critico, &quot;\n&quot;)
+#&gt; Valor crítico da distribuição F: 3,238872</code></pre>
+<p><strong>Distribuição F</strong></p>
+<p><img src="dic_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Como <span class="math inline">\(\text{F} = 7. 80 &gt; 3. 24 =
+\text{FTab}\)</span> (<span class="math inline">\(\alpha = 0. 05, 3,
+16\)</span>), há evidências para rejeitarmos <span
+class="math inline">\(H_0\)</span> ao nível de 5% de significância.
+Desse modo, não podemos afirmar que todas as médias são iguais.</p>
+<div class="line-block"><br />
+<br />
+</div>
+</div>
+</div>
+<div id="atividade" class="section level1">
+<h1>Atividade</h1>
+<ol style="list-style-type: decimal">
+<li>Responda verdadeiro ou falso:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Para estudar o efeito de 3 manejos na cultura da cana-de açúcar,
+um pesquisador fez um experimento coletando os teores de açúcar de 5
+colmos e analisou a média dos mesmos. O experimento foi instalado
+seguindo as curvas de nível do local no delineamento inteiramente
+casualizado.
+<select class='webex-select'><option value='blank'></option><option value=''>TRUE</option><option value='answer'>FALSE</option></select></p></li>
+<li><p>O quadrado médio do resíduo representa a variância do
+experimento.
+<select class='webex-select'><option value='blank'></option><option value='answer'>TRUE</option><option value=''>FALSE</option></select></p></li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>Em um experimento de competição de dez cultivares de arroz para
+avaliar a produtividade, instalado em um delineamento inteiramente
+casualizado, os resultados (parciais) para a ANOVA foram os
+seguintes:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Complete o quadro da ANOVA</li>
+</ol>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="12%" />
+<col width="24%" />
+<col width="12%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonte</th>
+<th align="center">GL</th>
+<th align="center">SQ</th>
+<th align="center">QM</th>
+<th align="center">F Cal</th>
+<th align="center">F Tab</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>cultivar</td>
+<td
+align="center"><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td align="center">17564523</td>
+<td
+align="center"><input class='webex-solveme nospaces' size='10' data-answer='["1951613,66"]'/></td>
+<td align="center">9.31</td>
+<td align="center">2.39</td>
+</tr>
+<tr class="even">
+<td>Resíduo</td>
+<td
+align="center"><input class='webex-solveme nospaces' size='2' data-answer='["20"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='10' data-answer='["4192510,56"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='9' data-answer='["209625,52"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td align="center">29</td>
+<td
+align="center"><input class='webex-solveme nospaces' size='6' data-answer='["133722"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+<td
+align="center"><input class='webex-solveme nospaces' size='1' data-answer='["9"]'/></td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Variável resposta:
+<select class='webex-select'><option value='blank'></option><option value=''>linhas
+de arroz</option><option value=''>Cultivar de
+arroz</option><option value='answer'>produtividade</option></select></p></li>
+<li><p>Tratamento:
+<select class='webex-select'><option value='blank'></option><option value=''>linhas
+de arroz</option><option value='answer'>Cultivar de
+arroz</option><option value=''>produtividade</option></select></p></li>
+<li><p>Parcelas:
+<select class='webex-select'><option value='blank'></option><option value='answer'>linhas
+de arroz</option><option value=''>Cultivar de
+arroz</option><option value=''>produtividade</option></select></p></li>
+</ol>
+<p>Faça o upload da resolução e tire suas <a
+href="https://forms.gle/LQ6mNE4DoR1Fk6px6">aqui</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

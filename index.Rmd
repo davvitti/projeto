@@ -1,0 +1,17 @@
+---
+title: "Estatística"
+---
+
+![fonte: Unoeste](figs\estt.jpg)
+
+# Sobre este site
+
+# Por que aprender estatística?
+
+# Estatística e o cotidiano
+
+# Caso recente: Pandemia Covid-19
+
+# Aprendendo jogando
+
+![Plague INC.](figs\plague.jpg)

@@ -1,0 +1,379 @@
+---
+title: "Delineamento inteiramente casualizado"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(OutDec = ",")
+library(webexercises)
+```
+
+```{css, echo = FALSE}
+body {
+     text-align: justify;
+}
+
+```
+
+# Fundamentos
+
+|      O delineamento inteiramente casualizado (DIC) é o mais simples dos delineamentos, pois considera apenas dois dos princípios básicos da experimentação: a repetição e a casualização. Neste, os tratamentos são aleatoriamente atribuídos ao material experimental, sem o esforço de se restringir os tratamentos a alguma porção de área, material ou espaço. Ainda como característica, como não há uso do controle local o número de repetições por tratamento pode variar.É geralmente utilizado quando a variação do material experimental é relativamente pequena, o que geralmente ocorre em laboratórios e casas de vegetação.
+
+|      Como vantagens de sua utilização temos que é um experimento de fácil planejamento e que permite o número máximo de graus de liberdade do Resíduo. Em termos de análise é a mais simples quando comparado aos demais delineamentos experimentais e não apresentará confundimento caso os tratamentos tenham números diferentes de repetições. Entretanto, como desvantagens temos que o delineamento inteiramente casualizado é adequado aos experimentos com baixo número de tratamentos e material experimental homogêneo, o que nem sempre se consegue. Quando um grande número de tratamentos é utilizado, há um crescimento no material experimental, que pode inflacionar a variação experimental. Nesses casos o Delineamento Inteiramente Casualizado não é indicado.
+
+|
+|
+|
+## Exemplo: Vinhedo
+
+![Photos and illustrations by Hemant Gohil.](figs\CRD.png)
+
+Figura 1: Dois experimentos em DIC com quatro repetições de um tratamento (linhas amarelas) e de um controle (linhas azuis), sendo um em um vinhedo pequeno (A) e outro em um vinhedo médio (C). Fonte: Hemant Gohil.
+
+|      Considerações: 
+
+* Note que os exemplos consideram uma linha de bordadura entre as linhas. 
+
+* Em alguns casos o mesmo tratamento ocupa parcelas vizinhas .
+
+* Os croquis para os ensaios mostrados em A e C são exibidos em B e D, respectivamente.
+
+
+|
+|
+|
+# Obtendo um croqui para um DIC  
+
+|      Para obtermos um croqui para um experimento com $I$ tratamentos em um DIC, sendo o $i$-ésimo tratamento repetido $n_i$ vezes e o número total de parcelas $n=\sum_{i=1}^I n_i \text{(1)}$ 
+
+(i) Enumerar as parcelas 1, 2, . . . , $n$
+(ii) Criar o delineamento sistemático, ou seja,
+alocar o tratamento 1 às parcelas 1, 2, . . . , $n_1$
+alocar o tratamento 2 às parcelas $n_1$ + 1, $n_1$ + 2, . . . , $n_1$ + $n_2$
+e assim até as repetições do tratamento $I$.
+(iii) Escolha uma permutação de 1, 2, . . . , $n$ e aplique ao delineamento.
+
+|
+|
+|
+## Exemplo
+
+|      Suponha que desejamos comparar a produtividade de três variedades de soja, com três, quatro e três repetições respectivamente. O plano de casualização para o delineamento sistemático é dado por:
+
+Ordem Padrão | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+-------------|---|---|---|---|---|---|---|---|---|----|
+Variedade    | A | A | A | B | B | B | B | C | C | C  |
+
+Uma permutação:
+
+Parcelas     | 7 | 1 | 8 | 10 | 3 | 2 | 4 | 6 | 9 | 5 |
+-------------|---|---|---|----|---|---|---|---|---|---|
+Ordem Padrão | 1 | 2 | 3 |  4 | 5 | 6 | 7 | 8 | 9 | 10|
+
+E o plano de casualização é dado por:
+
+Parcelas  |1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+----------|--|---|---|---|---|---|---|---|---|----|
+Variedade | B| A | C | C | A | A | B | B | C | A  |
+
+|
+|
+|
+# Análise dos dados
+
+|      Entende-se como objetivo inicial de um experimento a verificação dos efeitos de tratamentos. Aqui será utilizada a Análise de Variância (ANOVA) para tal verificação. A ANOVA é utilizada na comparação de médias de dois ou mais tratamentos ou teste para a variância dos tratamentos, por meio do teste F (Fisher). Trata-se de uma extensão do teste t de Student, permitindo que o pesquisador compare qualquer número de médias, quando o efeito de tratamentos é fixo.
+
+
+|
+|
+|
+## Modelo estatistico 
+
+|      O modelo estatístico para a análise dos dados oriundos de um DIC com um único fator de tratamentos é dado pela [Equação 2](). 
+
+\begin{equation}
+y_{ij} = \mu + \tau_i + e_{ij} = \mu_i + e_{ij}  \text{(2)}
+
+\end{equation}
+
+em que:
+
+- $y_{ij}$ é o valor observado na j-ésima repetição do iésimo tratamento, com: 
+ - $i = 1, ... , I$ e 
+ - $j = 1, ... , n_i$
+  
+- $\mu$ é uma constante inerente a todas as observações, geralmente a média geral,
+
+- $\tau_i$ é o efeito do iésimo tratamento,
+
+- $e_{ij}$ é o erro experimental, tal que $e_{ij} \overset{iid}{\sim}  N(0,\sigma^2)$.
+
+|      Realizando-se a ANOVA, testamos as hipóteses:
+
+$$H_0 : \tau_{1} = \tau_{2} = ... = \tau_{I} = 0$$
+
+$$H_1 = H_a : \tau_{i} \neq 0$$ 
+
+|      Havendo uma reparametrização do modelo apresentado na [equação 2](## Modelo estatistico), tal que $\mu + \tau_i = \alpha_i$ em que $\alpha_i$ é a média do iésimo tratamento, é:
+
+$$y_{ij} = \alpha_i + e_{ij} \text{(3)}$$
+
+|      As hipóteses de interesse passam a ser:
+
+$$H_0 : \alpha_1 = \alpha_2 = ... = \alpha_I = \mu$$
+
+$$H_1 = Ha : \text{pelo um contraste de médias difere de zero}$$.
+
+|      Neste momento assumiremos que as pressuposições de normalidade e independência dos erros, bem a homogeneidade de suas variâncias garantidas. Assim, assumimos que eij corresponde a uma realização da variável $E_{ij}$ , tal que $e_{ij} \overset{iid}{\sim}  N(0,\sigma^2)$ e os demais termos no [equação (3)]() são fixos. Cabe sailentar que o modelo citado é o modelo maximal, ou seja, aquele modelo mais complicado a ser considerado na análise.
+|      Desse modo, a esperança da variável aleatória $Y_{ij}$ será
+
+$$E(Y_{ij}) = E(\mu + \tau_i + E_{ij} ) = \mu + \tau_i + 0 = \mu + \tau_i \text(4)$$
+
+
+|
+|
+|
+## Análise de variância
+
+|     A proposta da ANOVA consiste em decompor a variância total dos dados em parte atribuída aos efeitos de tratamentos e parte ao acaso.
+
+Tabela 1: Demonstração sobre fontes de variação e graus de liberdade
+
+Fontes de Variação| Graus de liberdade   |
+------------------|:----------------------:|
+Total             |  $n\text{-}1$        |
+Tratamentos       |  $I\text{-}1$        |
+Resíduo           |  $n\text{-}I$        |
+ 
+ 
+|     Sabemos que a variância dos dados é dada por:
+
+$$\text{Variância} = \sum _{ij} \frac{(yij−\bar{y})^2}{(n−1)} (\text{expressão 1})$$
+
+$$\text{variância} = \displaystyle{\frac{\text{SQ}}{\text{gl}}}(\text{expressão 2})$$ 
+
+$$\text{F} = \displaystyle{\frac{\text{QM}_{\text{Trat}}}{\text{QM}_{\text{Resíduo}}}}$$
+
+Retomando as hipóteses 
+
+$H_0 : \mu_1 = \mu_2 = ... = \mu_I = 0$
+
+$H_1 = Ha$: pelo um contraste de médias difere de zero.Denotamos por Soma de Quadrados do Total (SQ Total) o numerador da [expressão 2](#exp3). Observe que a decomposição mencionada anteriormente será:
+
+
+ 
+ \[\displaystyle{\sum_{i=1}^I\sum_{j=1}^Jy_{ij}^2\text-\frac{\left(\sum_{i=1}^I\sum_{j=1}^Jy_{ij}\right)^2}{I\times J}}(\text{expressão 3})\]
+ 
+|     Em que SQ Tratamentos e SQ Resíduo correspondem às Soma de Quadrados de Tratamentos e Soma de Quadrados de Resíduo, respectivamente.
+|     As expressões apresentadas em 4 e 5, podem ser reescritas conforme segue.
+
+\[\displaystyle{\frac{1}{J}\sum_{i=1}^I T_i^2 \text- \frac{\left(\sum_{i=1}^I\sum_{j=1}^Jy_{ij}\right)^2}{I\times J}}(\text{expressão 4})\]
+
+|     A SQ Resíduo pode ser obtida por diferença, ou seja,
+SQ Resíduo = SQ Total - SQ Tratamentos.
+
+|     Para encontrarmos a estatística apropriada para o teste F temos que obter as Esperanças dos Quadrados Médios relacionados a cada fonte de variação na ANOVA.
+|     Os quadrados médios, denotados usualmente por QM, são definidos pelo quociente entre a soma de quadrados e o respectivo número de graus de liberdade relacionados a uma fonte de varição, isto é:
+
+$$\text{QM}_{\text{Trat}} = \displaystyle{\frac{\text{SQ}_\text{Trat}}{\text{gl}_\text{Trat}}}$$
+
+|     Rejeita-se $H_0$ se $F_{cal} \geq F_{tab_{(\alpha, I-1, I(J-1))}}$, em que $\alpha$ é o nível de significância, $I-1$ é o número de graus de liberdade do numerador e $I(J-1)$ é o número de graus de liberdade do denominador.		
+
+[Tabela F](https://docs.ufpr.br/~vayego/pedeefes/tab_sned.pdf)
+
+![Tabela F](figs\tabelaf.PNG)
+
+
+|
+|
+|
+## Coeficiente de variação
+
+
+|     O número de repetições pode estar associado ao número de graus de liberdade do resíduo ; $$\text{gl}_{\text{Res}} \geq 12$$
+ 
+|    O CV é adimensional, pode-se comparar a dispersão de variáveis com diferentes unidades de medida.
+
+
+$$\displaystyle{\text{CV}_{\%} = 100\frac{\hat{\sigma}}{\hat{\mu}} = 100\frac{\sqrt{\text{QM}_{\text{Res}}}}{\bar{y}}}$$
+
+- CV $<$ 10% : baixo
+
+- 10% $<$ CV $>$ 20%  :médio
+
+- 20% $<$ CV $>$ 30%  :alto
+
+- CV $>$ 30% : muito alto
+       
+
+|
+|
+|
+## Exemplo
+
+|     Considere os dados abaixo referentes à produtividade de milho (kg/100m$^2$) de quatro diferentes variedades, em um experimento instalado segundo o delineamento inteiramente casualizado, com cinco repetições.
+
+Tabela 2: produtividade de milho (kg/100m$^2$) de quatro diferentes variedades
+
+(Variedades)| 1  |  2  |  3 |  4 |  5 |total |média |
+:------------:|----|-----|----|----|----|------|------|
+			A   | 25 | 26  | 20 | 23 | 21 | 115  | 23,00| 
+			B   | 31 | 25  | 28 | 27 | 24 | 135  | 27,00|
+			C   | 22 | 26  | 28 | 25 | 29 | 130  | 26,00|
+			D  | 33 | 29  | 31 | 34 | 28 | 155  | 31,00|
+
+
+Tabela 3: nomenclatura de dados
+
+(Variedades)| 1 | 2  | 3  | 4  | 5  |   total |
+:------------:|---|----|----|----|----|---------|
+V1          |y11| y12| y13| y14| y15| y1· = T1|
+V2          |y21| y22| y23| y24| y25| y2· = T2|
+V3          |y31| y32| y33| y34| y35| y3· = T3|
+V4          |y41| y42| y43| y44| y45| y4· = T4|
+
+
+
+Análise descritiva: 
+
+Tabela 4: Análise descritivas dos dados
+
+Análise      | A    | B     | C     | D      | 
+-------------|------|-------|-------|--------|
+Soma         |115,00| 135,00| 130,00| 155,00 | 
+Média        |23,00 | 27,00 | 26,00 | 31,00  |  
+Variância    |6,50  |7,50   |7,50   | 6,50   | 
+Desvio-padrão|2,55  |2,74   | 2,74  | 2,55   | 
+
+Soma de Quadrados total
+
+$$\text{SQ}_{\text{Total}} = \displaystyle{\sum_{i=1}^4\sum_{j=1}^5y_{ij}^2 \text{-} \frac{\left(\sum_{i=1}^4\sum_{j=1}^5y_{ij}\right)^2}{4\times5}}$$
+
+$$ = \displaystyle{25^2 + 26^2 + \ldots + 28^2 \text{-} \frac{535^2}{20}} 
+ = 275,75$$
+ 
+Soma de Quadrados de tratamentos 
+
+$$\text{SQ}_{\text{Trat}} = \displaystyle{\frac{1}{5}\sum_{i=1}^4 T_i^2 \text{-} \frac{\left(\sum_{i=1}^4\sum_{j=1}^5y_{ij}\right)^2}{4\times5}}$$
+
+$$= \displaystyle{\frac{1}{5}\left(115^2 + 135^2 + 130^2 + 155^2\right) - \frac{535^2}{20}}= 163,75$$
+
+Soma de Quadrados do Resíduo
+
+$$\text{SQ}_\text{Resíduo} = \text{SQ}_{\text{Total}} \text{-} \text{SQ}_{\text{Trat}}$$ 
+ $$= 275,75 - 163,75 = 112,00$$
+
+
+Quadrado médio tratamentos
+
+$$\text{QM}_{\text{Trat}} = \displaystyle{\frac{\text{SQ}_{\text{Trat}}}{\text{gl}_{\text{Trat}}}}
+= \displaystyle{\frac{163,75}{3}} = 54,5833$$
+
+
+Quadrado médio do resíduo
+
+$$\text{QM}_{\text{Resíduo}} = \displaystyle{\frac{\text{SQ}_{\text{Resíduo}}}{\text{gl}_{\text{Resíduo}}}}=\displaystyle{\frac{112,00}{16}}= 7,0000$$ 
+
+
+F calculado
+
+$$\text{F} = \displaystyle{\frac{\text{QM}_{\text{Trat}}}{\text{QM}_{\text{Resíduo}}}}=\displaystyle{\frac{54,5833}{7,0000}}= 7,80$$
+
+Tabela 5: ANOVA
+
+Fontes     |Graus de liberdade |Soma de Quadrados |Quadrado Médio |Fcal |Ftab|
+-----------|-------------------|------------------|---------------|-----|----|
+Tratamentos| 3                 | 163,75           |54,5833        |7,80 |    |
+resıduo    | 16                | 112,00           | 7,0000        |     |    |
+Total      | 19                | 275,75           |               |     |    |
+
+F tabelado:
+
+```{r}
+# Defina o nível de significância desejado (por exemplo, 0.05 para um nível de 5%)
+nivel_de_significancia <- 0.05
+
+# Defina os graus de liberdade do numerador (df1) e do denominador (df2)
+df1 <- 3  # Graus de liberdade do numerador
+df2 <- 16 # Graus de liberdade do denominador
+
+# Encontre o valor crítico da distribuição F para o nível de significância especificado
+valor_critico <- qf(1 - nivel_de_significancia, df1, df2)
+
+# Imprima o valor crítico
+cat("Valor crítico da distribuição F:", valor_critico, "\n")
+
+```
+
+__Distribuição F__
+
+```{r, echo=FALSE}
+library(RcmdrMisc)
+local({
+  .x <- seq(0.005, 10.344, length.out=1000)  
+  plotDistr(.x, df(.x, df1=3, df2=16), cdf=FALSE, xlab="x", ylab="Density", main=paste("F Distribution:  Numerator df = 3, Denominator df = 16"), 
+  regions=list(c(0, 3.24)), col=c('#008000', '#BEBEBE'), legend.pos='topright')
+})
+
+```
+
+
+Como $\text{F} = 7. 80 > 3. 24 = \text{FTab}$ ($\alpha = 0. 05, 3, 16$), há evidências para rejeitarmos $H_0$ ao nível de 5% de significância. Desse modo, não podemos afirmar que todas as médias são iguais.
+
+|
+|
+|
+# Atividade
+
+
+1) Responda verdadeiro ou falso: 
+
+a) Para estudar o efeito de 3 manejos na cultura da cana-de açúcar, um pesquisador fez um experimento coletando os teores de açúcar de 5 colmos e analisou a média dos mesmos. O experimento foi instalado seguindo as curvas de nível do local no delineamento inteiramente casualizado. `r torf(FALSE)`
+
+b) O quadrado médio do resíduo representa a variância do experimento. `r torf(TRUE)`
+
+2) Em um experimento de competição de dez cultivares de arroz para avaliar a produtividade, instalado em um delineamento inteiramente casualizado, os resultados (parciais) para a ANOVA foram os seguintes:
+
+a) Complete o quadro da ANOVA
+
+Fonte   | GL |    SQ    | QM | F Cal | F Tab | 
+--------|:----:|:----------:|:----:|:-------:|:-------:|
+cultivar| `r fitb(9)`| 17564523 |`r fitb(1951613.66)`| 9.31  | 2.39  |
+Resíduo |`r fitb(20)`| `r fitb(4192510.56)` | `r fitb(209625.52)` | `r fitb(9)`  |   `r fitb(9)`    |
+Total   | 29 |   `r fitb(133722)`|  `r fitb(9)`  |     `r fitb(9)`  |   `r fitb(9)`|
+
+```{r, echo=FALSE, , results = 'asis'}
+opts <- c("linhas de arroz", 
+            "Cultivar de arroz", 
+            answer = "produtividade")
+
+q1 <- mcq(opts)
+
+cat("b)  Variável resposta:" , q1)
+```
+
+```{r, echo=FALSE, , results = 'asis'}
+opts1 <- c("linhas de arroz", 
+            answer= "Cultivar de arroz", 
+            "produtividade")
+
+q2 <- mcq(opts1)
+
+cat("c) Tratamento:" , q2)
+```
+
+```{r, echo=FALSE, , results = 'asis'}
+opts2 <- c(answer ="linhas de arroz", 
+            "Cultivar de arroz", 
+            "produtividade")
+
+q3 <- mcq(opts2)
+
+cat("d) Parcelas:" , q3)
+```
+
+Faça o upload da resolução e tire suas [aqui](https://forms.gle/LQ6mNE4DoR1Fk6px6)
+

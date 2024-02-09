@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Introdução</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Estatística experimental</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Sobre</a>
+</li>
+<li>
+  <a href="intro.html">Introdução</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Capítulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="dic.html">Delineamento inteiramente casualizado</a>
+    </li>
+    <li>
+      <a href="cm.html">Comparação de médias</a>
+    </li>
+    <li>
+      <a href="rp.html">Regressão polinomial</a>
+    </li>
+    <li>
+      <a href="anova.html">Pressuposições da Anova</a>
+    </li>
+    <li>
+      <a href="dbc.html">Delineamento blocos casualizados</a>
+    </li>
+    <li>
+      <a href="dql.html">Delineamento quadrado latino</a>
+    </li>
+    <li>
+      <a href="fat.html">Esquema fatorial de tratamentos</a>
+    </li>
+    <li>
+      <a href="parcs.html">Parcelas subdivididas</a>
+    </li>
+    <li>
+      <a href="grups.html">Grupos de experimentos</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://davivitti.shinyapps.io/atividades/">Atividades</a>
+</li>
+<li>
+  <a href="https://forms.gle/LQ6mNE4DoR1Fk6px6">Dúvidas?</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Introdução</h1>
+
+</div>
+
+
+<style type="text/css">
+body {
+     text-align: justify;
+}
+
+</style>
+<div id="estatística-nas-ciências-agrárias" class="section level1">
+<h1>Estatística nas ciências agrárias</h1>
+<div class="line-block">    Segundo o dicionário Michaelis a estatística
+é o ramo da matemática responsável que tem por objetivo a coleção,
+análise e interpretação de dados numéricos a respeito de fenômenos
+coletivos ou de massa. Realizar a representação numérica e comparativa,
+em tabelas ou gráficos, dos resultados da análise desses
+fenômenos.</div>
+<div class="float">
+<img src="figs/estatistica3.jpg" style="width:50.0%" alt="Fluxograma" />
+<div class="figcaption">Fluxograma</div>
+</div>
+<ul>
+<li><p>Levantamento: Observa-se o fenômeno como ele é na
+natureza</p></li>
+<li><p>Experimento: Nesse caso, as observações são geradas e feitas,
+comumente, sob condições controladas pelo pesquisador, e os fatos,
+eventos ou fenômenos são forçados a sofrer variações sistemáticas
+mediante aplicação de tratamentos. Pretende-se determinar relações de
+causa e efeito.</p></li>
+</ul>
+</div>
+<div id="método-científico" class="section level1">
+<h1>Método científico</h1>
+<div class="float">
+<img src="figs/circ_mc.jpg" style="width:50.0%"
+alt="métodocientífico" />
+<div class="figcaption">métodocientífico</div>
+</div>
+<div class="float">
+<img src="figs/campos_est.jpg" style="width:50.0%" alt="campos" />
+<div class="figcaption">campos</div>
+</div>
+<div class="float">
+<img src="figs/pop_amost.jpg" style="width:50.0%" alt="pop" />
+<div class="figcaption">pop</div>
+</div>
+<div class="float">
+<img src="figs/bordadura.jpg" style="width:10cm" alt="bordadura" />
+<div class="figcaption">bordadura</div>
+</div>
+</div>
+<div id="conceitos-iniciais" class="section level1">
+<h1>Conceitos iniciais</h1>
+<p>Parâmetro: são quantidades da população, em geral desconhecidas,
+sobreas quais tem-se interesse.</p>
+<p>Estimativa: são valores numéricos associados aos parâmetros, obtidos
+a partir de uma amostra.</p>
+<div id="estimadores-pontuais" class="section level2">
+<h2>Estimadores pontuais</h2>
+<p><span class="math display">\[\mbox{Média: } \hat{\mu} = \bar{X} =
+\frac{\sum_{i=1}^n X_i}{n}\]</span></p>
+<p><span class="math display">\[\mbox{Variância: } \hat{\sigma}^2 = S^2
+= \frac{\sum_{i=1}^n(X_i-\bar{X})^2}{n-1}\]</span></p>
+<p><span class="math display">\[\mbox{Desvio-padrão: } \hat{\sigma} = S
+= \sqrt{\frac{\sum_{i=1}^n(X_i-\bar{X})^2}{n-1}}\]</span></p>
+<p><span class="math display">\[\displaystyle{\mbox{Coeficiente de
+variação: } 100 \times
+\frac{\sqrt{\hat{\sigma}^2}}{\hat{\mu}}\%.}\]</span></p>
+</div>
+<div id="mediana-quartis-e-percentis" class="section level2">
+<h2>Mediana, Quartis e Percentis</h2>
+<ul>
+<li><p>Mediana: corresponde ao valor central de um conjunto de valores
+ordenados.</p></li>
+<li><p>Quartis: valores que dividem uma amostra de dados ordenados em
+quatro partes iguais.</p></li>
+<li><p>Percentis de ordem <span class="math inline">\(100p\)</span>:
+valores que dividem a amostra ordenada em 100 partes aproximadamente
+iguais.</p></li>
+</ul>
+</div>
+<div id="gráfico-de-caixas" class="section level2">
+<h2>Gráfico de Caixas</h2>
+<p>O gráfico de caixas é uma importante ferramenta para o estudo da
+simetria das distribuições e detecção de observações atípicas.</p>
+<p>Construção de um gráfico de caixas</p>
+<ul>
+<li>Calcular o primeiro quartil (<span
+class="math inline">\(Q_1\)</span>), a mediana (Md) e o terceiro quartil
+(<span class="math inline">\(Q_3\)</span>);</li>
+<li>Calcular a distância interquartílica: AIQ = <span
+class="math inline">\(Q_3 - Q_1\)</span>;</li>
+<li>Verificar a existência de observações atípicas, ou seja, valores
+menores do que <span class="math inline">\(Q_1-1,5\mbox{AIQ}\)</span> ou
+maiores do que <span class="math inline">\(Q_3+1,5\mbox{AIQ}\)</span>,
+representados individualmente no gráfico de caixas por <span
+class="math inline">\(\ast\)</span>;</li>
+<li>Calcular os limites inferior e superior dos dados sem considerar as
+observações atípicas;</li>
+<li>Construir o gráfico seguindo o esquema a seguir:</li>
+</ul>
+<p>Gráfico 1: Exemplo Boxplot</p>
+<pre class="r"><code>boxplot(c(11.5, 18.7,   15,
+       17.6,    12.4,   21,
+       14.4,    15.2,   16.9,   14.5,
+       16.2,    14.1,   15.7,   16,
+       15.7,    13.1,   15.2,   18,
+       15.1,    19.6,
+       18.1,    14.7,   16.4,   13.8,
+       18.8,    15.5,   17.6,   16.8,
+       15.2,    13.7))</code></pre>
+<p><img src="intro_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="estimadores-intervalares" class="section level2">
+<h2>Estimadores intervalares</h2>
+<div id="intervalo-de-confiança" class="section level3">
+<h3>Intervalo de confiança</h3>
+<div class="line-block">    Seja (<span class="math inline">\(X_1, X_2,
+\ldots, X_n\)</span>) uma amostra aleatória de tamanho <span
+class="math inline">\(n\)</span> de uma população e <span
+class="math inline">\(\theta\)</span> o parâmetro de interesse. Sejam
+<span class="math inline">\(\hat{\theta}_1\)</span> e <span
+class="math inline">\(\hat{\theta}_2\)</span> estatísticas tais
+que:</div>
+<p><span class="math display">\[P(\hat{\theta}_1 &lt; \theta &lt;
+\hat{\theta}_2) = 1-\alpha.\]</span></p>
+<div class="line-block">     Então o intervalo <span
+class="math inline">\((\hat{\theta}_1; \hat{\theta}_2)\)</span> é
+chamado intervalo de {} para o parâmetro <span
+class="math inline">\(\theta\)</span>.Usualmente, toma-se <span
+class="math inline">\(1-\alpha\)</span> = 0,95 ou 0,99.</div>
+<div class="line-block">     Interpretação: De todos os possíveis
+intervalos que possam ser construídos, espera-se que <span
+class="math inline">\(100(1-\alpha)\%\)</span> deles contenham o valor
+verdadeiro do parâmetro <span
+class="math inline">\(\theta\)</span>.</div>
+</div>
+<div id="intervalo-de-confiança-para-a-média" class="section level3">
+<h3>Intervalo de confiança para a média</h3>
+<p><span class="math display">\[{IC(\mu)_{1-\alpha} =
+\Bigg(\bar{X}-t_T\sqrt{\frac{\hat{\sigma}^2}{n}};
+\bar{X}+t_T\sqrt{\frac{\hat{\sigma}^2}{n}} \Bigg)}\]</span></p>
+<p>para <span class="math inline">\(n \geq 30\)</span></p>
+<p><span class="math display">\[{IC(\mu)_{1-\alpha} =
+\Bigg(\bar{X}-z_T\sqrt{\frac{\hat{\sigma}^2}{n}};
+\bar{X}+z_T\sqrt{\frac{\hat{\sigma}^2}{n}} \Bigg)}\]</span></p>
+</div>
+</div>
+<div id="classificação-de-variáveis" class="section level2">
+<h2>Classificação de variáveis:</h2>
+<div class="line-block">     Natureza dos dados Observação ou dados
+estatísticos: valor específico da variável, podendo ser qualitativo ou
+quantitativo.</div>
+<ul>
+<li><p>Variável qualitativa: apresenta como realização uma qualidade ou
+atributo do indivíduo pesquisado.</p></li>
+<li><p>Variável qualitativa nominal: não apresenta ordenação nas
+possíveis realizações.</p></li>
+<li><p>Variável qualitativa ordinal: existe uma ordenação natural nas
+possíveis realizações.</p></li>
+<li><p>Variável quantitativa: as possíveis realizações são
+mensuráveis.</p></li>
+<li><p>Variável quantitativa discreta: os possíveis valores formam um
+conjunto finito ou infinito e enumerável (contagens). Irmãos.</p></li>
+</ul>
+<p>Variável quantitativa contínua: os possíveis valores formam um
+intervalo de números reais (mensurações).</p>
+</div>
+</div>
+<div id="atividade" class="section level1">
+<h1>Atividade</h1>
+<ol style="list-style-type: decimal">
+<li>Os pesos ao nascer de 12 bezerros machos da raça holandelesa são os
+seguintes, em kg:</li>
+</ol>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+<th>I</th>
+<th>J</th>
+<th>K</th>
+<th>L</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>47</td>
+<td>41</td>
+<td>34</td>
+<td>45</td>
+<td>45</td>
+<td>46</td>
+<td>25</td>
+<td>48</td>
+<td>37</td>
+<td>47</td>
+<td>40</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-alpha">
+<li>Apresentar uma análise descritiva do conjunto de dados.
+Calcule:</li>
+</ol>
+<ul>
+<li>Média;</li>
+<li>Moda;</li>
+<li>Mediana;</li>
+<li>Variância;</li>
+<li>Desvio-padrão;</li>
+<li>Construa um gráfico boxplot;</li>
+</ul>
+<p>Faça o upload da resolução e tire suas <a
+href="https://forms.gle/LQ6mNE4DoR1Fk6px6">aqui</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
