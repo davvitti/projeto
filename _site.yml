@@ -1,7 +1,6 @@
 output_dir: "docs"
 name: "Estatística experimental"
 navbar:
-  color: "#008000"
   title: "Estatística experimental"
   type:
   toc: true
