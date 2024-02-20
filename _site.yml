@@ -7,12 +7,12 @@ navbar:
   left:
     - text: "Sobre"
       href: index.html
-    - text: "Revisão: Estatística geral"
-      href: intro.html
+    - text: "Revisão"
+      href: revisao.html
     - text: "Capítulos"
       menu:
        - text: "Introdução"
-         href: about.html
+         href: introducao.html
        - text: "Delineamento inteiramente casualizado"
          href: dic.html
        - text: "Comparação de médias"
