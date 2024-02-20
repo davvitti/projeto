@@ -546,8 +546,10 @@ Os contrastes devem ser estabelecidos antes da realização da análise.
 
 em que $\hat{L} = a_1\hat{\mu}_1 + a_2\hat{\mu}_2 + \ldots + a_I\hat{\mu}_I$, $\displaystyle{\widehat{\text{Var}}(\hat{L}) = \frac{\sum_{i=1}^I a_i^2}{J}QMRes}$ e todos os tratamentos apresentam o mesmo número de repetições, $J$.
 
-$$\displaystyle{{\text{SQ}_L = \frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} = \frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}}.$$
-
+```{r}
+# $$\displaystyle{{\text{SQ}_L = \frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} = \frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}}.$$
+```
+  
 __Exemplo__ 
 |      Suponha um experimento instalado para avaliar a eficiência de fungicidas na produção de batatas. Foram utilizados quatro fungicidas + controle (sem aplicação de fungicida), sendo que os dois primeiros usam um modo de ação (modo A) e os dois últimos fungicidas outro modo de ação (modo B). Forme um grupo de contrastes ortogonais.
 
@@ -630,7 +632,7 @@ $\hat{L}_3: \hat{\mu}_C - \hat{\mu}_D = 26-31 = -5$
 
 Somas de quadrados: 
 
-$$\displaystyle{SQ_L = \frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} = \frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}$$
+\displaystyle{SQ_L = \frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} = \frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}
 
 
 
