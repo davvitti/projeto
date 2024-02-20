@@ -538,7 +538,7 @@ Como a soma dos produtos dos coeficientes é nula, os contrastes L2 e L3 são or
 Teste F: apresentação da decomposição do número de graus de liberdade de tratamentos em um grau de liberdade associado a cada contraste;
 Os contrastes devem ser estabelecidos antes da realização da análise. 
 
-$$\displaystyle{t_{L}^2 = \left(\frac{\hat{L}}{\sqrt{\widehat{\text{Var}}(\hat{L})}}\right)^2 = \text{F} = \frac{{\text{SQ}_\text{L}/1}}{\text{QMRes}} = \frac{{\hat{\text{L}}^2}}{{\frac{\sum_ia_i^2}{J}}\text{QMRes}}}.$$
+$$\displaystyle{t_{L}^2 = \left(\frac{\hat{L}}{\sqrt{\widehat{\text{Var}}(\hat{L})}}\right)^2 = \text{F} = \frac{SQ}_\text{L}/1}}{\text{QMRes}} = \frac{{\hat{\text{L}}^2}}{{\frac{\sum_ia_i^2}{J}}\text{QMRes}}}.$$
 
 em que $\hat{L} = a_1\hat{\mu}_1 + a_2\hat{\mu}_2 + \ldots + a_I\hat{\mu}_I$, $\displaystyle{\widehat{\text{Var}}(\hat{L}) = \frac{\sum_{i=1}^I a_i^2}{J}QMRes}$ e todos os tratamentos apresentam o mesmo número de repetições, $J$.
 
