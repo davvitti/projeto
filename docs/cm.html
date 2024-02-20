@@ -1332,10 +1332,7 @@ são equivalentes;</div>
 <p>Teste F: apresentação da decomposição do número de graus de liberdade
 de tratamentos em um grau de liberdade associado a cada contraste; Os
 contrastes devem ser estabelecidos antes da realização da análise.</p>
-<p><span class="math display">\[t_{L}^2 =
-({\frac{\hat{L}}{\sqrt{\widehat{VAR}}(\hat{L})}})^2
-=  {\frac{SQ_{L}/1}{\text{QMRes}}} = {\frac
-{\hat{L}^2}{{\frac{\sum_ia_i^2}{J}}\text{QMRes}}} \]</span></p>
+<pre class="r"><code># t_{L}^2 = ({\frac{\hat{L}}{\sqrt{\widehat{VAR}}(\hat{L})}})^2 =  {\frac{SQ_{L}/1}{\text{QMRes}}} = {\frac {\hat{L}^2}{{\frac{\sum_ia_i^2}{J}}\text{QMRes}}}</code></pre>
 <p>em que <span class="math inline">\(\hat{L} = a_1\hat{\mu}_1 +
 a_2\hat{\mu}_2 + \ldots + a_I\hat{\mu}_I\)</span>, <span
 class="math inline">\(\displaystyle{\widehat{\text{Var}}(\hat{L}) =
@@ -1560,7 +1557,7 @@ class="math display">\[SQ_{L_3}=\frac{\left[5\times(26-31)\right]^2}{5\times
 </tr>
 </tbody>
 </table>
-<p><img src="cm_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="cm_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <div class="line-block">     Ao nível de 5% de significância
 (individual), rejeitamos a hipótese {<span class="math inline">\(H_0:
 \text{L}_1 = \mu_A + \mu_B - \mu_c - \mu_D = 0\)</span>}. Logo, há
