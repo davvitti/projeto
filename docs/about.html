@@ -11,7 +11,7 @@
 
 
 
-<title>About This Website</title>
+<title>Planejamento de experimentos</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -322,7 +322,7 @@ div.tocify {
   <a href="index.html">Sobre</a>
 </li>
 <li>
-  <a href="intro.html">Introdução</a>
+  <a href="intro.html">Revisão: Estatística geral</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -331,6 +331,9 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about.html">Introdução</a>
+    </li>
     <li>
       <a href="dic.html">Delineamento inteiramente casualizado</a>
     </li>
@@ -378,12 +381,511 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">About This Website</h1>
+<h1 class="title toc-ignore">Planejamento de experimentos</h1>
 
 </div>
 
 
-<p>More about this website.</p>
+<p>Consiste da aplicação da lógica e objetividade para compreender um
+fenômeno (KEMPTHORNE, 1973).</p>
+<div class="float">
+<img src="figs/circ_mc.jpg" alt="metodo cientifico" />
+<div class="figcaption">metodo cientifico</div>
+</div>
+<div id="exemplos" class="section level1">
+<h1>Exemplos</h1>
+<div id="porcos-musicistas" class="section level2">
+<h2>Porcos musicistas</h2>
+<p>Você gosta de ouvir Bach? Os porcos também!</p>
+<p><a
+href="https://jornal.usp.br/ciencias/ciencias-agrarias/voce-gosta-de-ouvir-bach-os-porcos-tambem/">veja
+aqui</a></p>
+<div class="float">
+<img src="figs/pigmusic.png" alt="porco" />
+<div class="figcaption">porco</div>
+</div>
+</div>
+<div id="casa-de-vegetação" class="section level2">
+<h2>Casa de vegetação</h2>
+<div class="float">
+<img src="figs/casadevegetacao.jpg" alt="casa de vegetação" />
+<div class="figcaption">casa de vegetação</div>
+</div>
+<p>Fonte: www.embrapa.br</p>
+</div>
+<div id="curvas-de-nível" class="section level2">
+<h2>Curvas de nível</h2>
+<div class="float">
+<embed src="figs/curvasdenivel.pdf" />
+<div class="figcaption">curvas</div>
+</div>
+<p>Fonte: Plantação de limão, Fazenda São Luiz, Fernando Prestes, SP</p>
+</div>
+<div id="herbicida" class="section level2">
+<h2>Herbicida</h2>
+<div class="float">
+<img src="figs/herbicida.jpg" alt="herbivida" />
+<div class="figcaption">herbivida</div>
+</div>
+<p>Fonte: pergunteaoagronomo.com.br</p>
+</div>
+</div>
+<div id="definições-importante" class="section level1">
+<h1>Definições importante</h1>
+<div id="planejamento" class="section level2">
+<h2>Planejamento</h2>
+<p><strong>Fase de grande importância do experimento!</strong></p>
+<p>A partir do planejamento teremos orientações para</p>
+<ul>
+<li><p>instalação,</p></li>
+<li><p>condução,</p></li>
+<li><p>coleta de dados,</p></li>
+<li><p>análise estatística.</p></li>
+</ul>
+<p>Um pouco de história}</p>
+<div class="float">
+<img src="figs/BroadbalkExp.jpg" alt="broad" />
+<div class="figcaption">broad</div>
+</div>
+<div class="float">
+<img src="figs/BroadbalkExp2.jpg" alt="broad" />
+<div class="figcaption">broad</div>
+</div>
+<p>experimento de Park Grass (Broadbalk) foi instalado em 1856 na
+Estação Experimental de Rothamsted.</p>
+<p>Delineado para avaliar os efeitos de fertilizantes na produção de
+grama permanente cortada para feno. É considerado como o experimento
+ecológico de longo prazo mais importante do mundo.</p>
+<div class="float">
+<img src="figs/Milho.jpg" alt="milho" />
+<div class="figcaption">milho</div>
+</div>
+<div class="line-block">  Suponha que tenha sido avaliada a altura de
+cada uma de cinco plantas de milho, que vieram da mesma variedade e
+foram cultivadas sob as mesmas condições. Tem-se que o valor da altura
+<span class="math inline">\(y_j\)</span> será dado por:</div>
+<pre><code>$$y_j = \mu + \epsilon_j,$$</code></pre>
+<p>em que <span class="math inline">\(\mu\)</span> corresponde à média
+da altura das plantas e <span class="math inline">\(\epsilon_j\)</span>
+corresponde à variação do acaso, ou seja, a variação devida aos fatores
+não controláveis.</p>
+<div class="float">
+<img src="figs/variacao_acaso01.jpeg" alt="acaso" />
+<div class="figcaption">acaso</div>
+</div>
+<p>Variação do Acaso</p>
+<p>Trata-se da variação entre unidades tratadas como similares
+decorrentes de pequenas diferenças que não são possíveis de serem
+controladas.</p>
+<p>Como medir a variação do acaso?</p>
+<p><span class="math display">\[S^2 =
+\displaystyle{\frac{\sum_{j=1}^n(y_j-\hat{\mu})^2}{n-1}}\]</span></p>
+<div class="float">
+<img src="figs/variacao_acaso01.jpeg" alt="acaso" />
+<div class="figcaption">acaso</div>
+</div>
+<p>Outros exemplos:}</p>
+<ul>
+<li><pre><code>   variações nos pesos dos animais</code></pre></li>
+<li><pre><code>   variações de fertilidade do solo</code></pre></li>
+<li><pre><code>   variações de espaçamento</code></pre></li>
+<li><pre><code>   ...</code></pre></li>
+</ul>
+<p>Não se consegue eliminar a variação do acaso mas podem-se adotar
+estratégias que permitem a convivência com ela.</p>
+<p>Objetivo do planejamento: Tornar mínima a variação do acaso! Tornar
+possível a comparação de tratamentos diferentes com a mínima influência
+possível da variação do acaso.</p>
+<p>Estudo observacional</p>
+<p>Consiste em observar fenômenos na natureza, sem submeter os
+indivíduos, plantas, animais, … , a condições específicas.</p>
+<p><span class="math display">\[\Downarrow\]</span></p>
+<p>Planejamento de um estudo observacional</p>
+<p><span class="math display">\[\Downarrow\]</span></p>
+<p>Uso de técnicas de { Amostragem}</p>
+<p>Planejamento de Experimentos}</p>
+<p>Estudo observacional}</p>
+<p>Avaliar número de espécies, altura da árvore, DAP, … em uma floresta
+nativa.</p>
+<div class="float">
+<img src="figs/floresta_nativa01.jpg" alt="floresta" />
+<div class="figcaption">floresta</div>
+</div>
+<div class="line-block">       As observações são geradas, comumente sob
+{ condições controladas pelo pesquisador}, de tal modo que os indivíduos
+avaliados (plantas, animais, etc) sejam submetidos às condições
+específicas, denominadas { tratamentos}.<br />
+       Representa uma técnica muito importante para a aquisição do
+conhecimento científico.</div>
+<div class="float">
+<img src="figs/experimento01.jpg" alt="experimento" />
+<div class="figcaption">experimento</div>
+</div>
+<div class="float">
+<img src="figs/experimento02.jpg" alt="expe" />
+<div class="figcaption">expe</div>
+</div>
+<p>Fator</p>
+<div class="line-block">  Uma variável explanatória manipulada ou
+definida pelo pesquisador, que pode ser qualitativa ou
+quantitativa.</div>
+<p>Níveis de um fator</p>
+<div class="line-block">  Os valores que um fator individual pode
+tomar.</div>
+<p>Tratamentos</p>
+<div class="line-block">      São variações de um ou mais fatores de
+interesse no estudo.</div>
+<p>São exemplos de tratamentos:</p>
+<ul>
+<li><pre><code>   Variedades de soja, cana-de-açúcar, café, ...</code></pre></li>
+<li><pre><code>   Raças de gado</code></pre></li>
+<li><pre><code>   Linhagens de frango</code></pre></li>
+<li><pre><code>   Inseticida para controle de determinada praga</code></pre></li>
+<li><pre><code>   Espaçamento entre linhas</code></pre></li>
+<li><pre><code>   Doses de um determinado nutriente</code></pre></li>
+<li><pre><code>   ...</code></pre></li>
+</ul>
+<p>Tratamento controle ou testemunha</p>
+<div class="line-block">          Caracterizado pela ausência de
+tratamento (controle negativo) ou por um tratamento padrão (controle
+positivo).</div>
+<div class="line-block">  Os exemplos apresentados correspondem aos
+casos em que se tem apenas um FATOR de tratamento, com diferentes
+níveis. Entretanto, os tratamentos podem ser compostos pelas {
+combinações dos níveis de vários fatores}.</div>
+<div class="line-block"> Qual tipo de armadilha captura mais insetos
+considerando diferentes ambientes que podem ser claros ou escuros?</div>
+<p><span class="math inline">\(A_1C\)</span> &amp; <span
+class="math inline">\(A_2C\)</span> &amp; <span
+class="math inline">\(A_3C\)</span> <span
+class="math inline">\(A_1E\)</span> &amp; <span
+class="math inline">\(A_2E\)</span> &amp; <span
+class="math inline">\(A_3E\)</span></p>
+<div class="line-block">   Como se comporta a produtividade média de
+três variedades de cana-de-açúcar considerando-se quatro doses de
+N?</div>
+<p><span class="math inline">\(V_1D_0\)</span> &amp; <span
+class="math inline">\(V_1D_1\)</span> &amp; <span
+class="math inline">\(V_1D_2\)</span> &amp; <span
+class="math inline">\(V_1D_3\)</span>\ <span
+class="math inline">\(V_2D_0\)</span> &amp; <span
+class="math inline">\(V_2D_1\)</span> &amp; <span
+class="math inline">\(V_2D_2\)</span> &amp; <span
+class="math inline">\(V_2D_3\)</span>\ <span
+class="math inline">\(V_3D_0\)</span> &amp; <span
+class="math inline">\(V_3D_1\)</span> &amp; <span
+class="math inline">\(V_3D_2\)</span> &amp; <span
+class="math inline">\(V_3D_3\)</span>\</p>
+<p>Variável resposta ou variável em análise</p>
+<div class="line-block">  Característica medida ou observada no
+experimento <span class="math inline">\(\Rightarrow\)</span> objetivo da
+pesquisa. São exemplos:</div>
+<ul>
+<li><pre><code>   peso</code></pre></li>
+<li><pre><code>   produtividade</code></pre></li>
+<li><pre><code>   altura</code></pre></li>
+<li><pre><code>   DAP</code></pre></li>
+<li><pre><code>   BRIX</code></pre></li>
+<li><pre><code>   número de insetos mortos em amostras de $n$ insetos</code></pre></li>
+<li><pre><code>   peso de matéria seca</code></pre></li>
+<li><pre><code>   altura de inserção da primeira espiga (milho)</code></pre></li>
+<li><pre><code>   ...</code></pre></li>
+</ul>
+<p>Unidade Observacional ou de Observação</p>
+<div class="line-block">      Entidade física ou biológica que produzirá
+um único valor da variável resposta.</div>
+<p>Unidades Experimentais ou Parcelas</p>
+<div class="line-block">   A menor unidade que irá receber
+aleatoriamente um único tratamento. Pode coincidir com a unidade
+observacional ou corresponder a um grupo destas.</div>
+<div class="float">
+<img src="figs/experimento01.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="float">
+<img src="figs/experimento02.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="float">
+<img src="figs/experimento03.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Exemplos:</p>
+<ul>
+<li><pre><code>       um animal</code></pre></li>
+<li><pre><code>       um vaso com uma planta</code></pre></li>
+<li><pre><code>       um vaso com três plantas</code></pre></li>
+<li><pre><code>       cana-de-açúcar: cinco linhas de 10 metros</code></pre></li>
+<li><pre><code>       5 galinhas</code></pre></li>
+<li><pre><code>       duas mangueiras</code></pre></li>
+<li><pre><code>      ...</code></pre></li>
+</ul>
+<p>Planejamento de Experimentos: Unidades Experimentais ou Parcelas</p>
+<p>uma parcela no campo;</p>
+<p>um vaso com uma planta ou três plantas, ou um grupo de vasos;</p>
+<p>uma placa de Petri com dez sementes;</p>
+<p>um paciente em um hospital (denominado sujeito);</p>
+<div class="float">
+<img src="figs/soja.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="float">
+<img src="figs/PetriDish2.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="float">
+<img src="figs/pot.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="float">
+<img src="figs/cow.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Planejamento de Experimentos: Unidades Experimentais ou Parcelas</p>
+<div class="float">
+<img src="figs/expU1.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="float">
+<img src="figs/expU2.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>uma porção de massa; um animal ou um grupo de animais;</p>
+<p>uma execução específica em uma máquina com determinadas
+condições;</p>
+<p>um lote de matéria-prima.</p>
+<p>Observações:</p>
+<div class="line-block">           As parcelas em um experimento devem
+apresentar mesmo tamanho e mesma forma!<br />
+           “+” ; de um indivíduo por parcela <span
+class="math inline">\(\Rightarrow\)</span> &lt; risco de perda de
+parcela <span class="math inline">\(\Rightarrow\)</span> trabalhar com a
+média observada na parcela<br />
+           “+” ; de um indivíduo por parcela <span
+class="math inline">\(\Rightarrow\)</span> medida de precisão do
+experimento <span class="math inline">\(\Rightarrow\)</span> Tamanho da
+parcela</div>
+<p>Variabilidade dentro da parcela <span
+class="math inline">\(\leq\)</span> Variabilidade entre as parcelas</p>
+<p>Bordadura</p>
+<div class="line-block">  Deve ser utilizada quando um tratamento
+atribuído a uma parcela pode influenciar a resposta observada na parcela
+vizinha. São comuns em vários experimentos:</div>
+<ul>
+<li>cana-de-açúcar</li>
+<li><pre><code>   fungicidas</code></pre></li>
+<li><pre><code>   variedades que apresentam alturas diferentes $\Rightarrow$  evitar sombreamento</code></pre></li>
+<li><pre><code>   ...</code></pre></li>
+</ul>
+<div class="float">
+<img src="Aulas/figs/border.png" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<ul>
+<li>Representação gráfica do delineamento experimental (croqui)*</li>
+<li>Unidade cruzadas (<span class="math inline">\(\otimes\)</span>)
+foram ignoradas devido ao efeito da borda*</li>
+<li>R1-R4 indicam as quatro repetições do cultivar.</li>
+</ul>
+<div class="float">
+<img src="figs/bordadura.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Fatores que afetam o tamanho da unidade experimental ou parcela</p>
+<ul>
+<li><pre><code>   Considerações práticas</code></pre></li>
+<li><pre><code>       baias ou gaiolas previamente construídas;</code></pre></li>
+<li><pre><code>       área experimental limitada;</code></pre></li>
+<li><pre><code>       equipamento utilizado;</code></pre></li>
+<li><pre><code>       espaço limitado em uma casa de vegetação;</code></pre></li>
+<li><pre><code>       número de animais ou plantas disponíveis***</code></pre></li>
+<li><pre><code>       Natureza do material experimental (relacionado ao fator anterior)</code></pre></li>
+<li><pre><code>       área de confinamento de experimentos com gado é diferente da área de experimentos com galinha, por exemplo;</code></pre></li>
+<li><pre><code>   o mesmo vale para experimentos de campo com diferentes culturas***</code></pre></li>
+<li>Limitações relacionadas ao delineamento experimental;</li>
+<li>Custo do experimento;</li>
+<li>…</li>
+</ul>
+<p>Métodos para determinar o tamanho ótimo da parcela</p>
+<div class="line-block">  Método da máxima curvatura}: São observadas
+várias parcelas pequenas de tamanho <span
+class="math inline">\(x\)</span>. Tais parcelas são combinadas de tal
+modo a formar novas parcelas de vários tamanhos. As respectivas médias e
+variâncias são calculadas, com o objetivo de se calcularem os
+correspondentes coeficientes de variação. Faz-se um gráfico dos
+coeficientes de variação {} os respectivos tamanhos e, por inspeção, é
+obtido o ponto ótimo que é aquela com máxima curvatura.</div>
+<p>Método da máxima curvatura</p>
+<div class="float">
+<img src="figs/metododacurvaturamaxima.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Aspectos negativos:</p>
+<p>custo relativo o ponto de curvatura máxima não é independente do
+menor tamanho da parcela, <span class="math inline">\(x\)</span>.</p>
+<div class="line-block">Lei da variância de Fairfield Smith (também
+desenvolvida por Mahalanobis)}:</div>
+<pre><code>$$V_x = V_1 x^{-b} \Rightarrow \log V_x = \log V_1 - b \log x,$$</code></pre>
+<div class="line-block">  em que <span
+class="math inline">\(V_x\)</span> denota a variância da resposta por
+unidade de área entre parcelas de tamanho <span
+class="math inline">\(x\)</span>; <span
+class="math inline">\(V_1\)</span> denota a variância entre parcelas de
+tamanho unitário e <span class="math inline">\(b\)</span> é o
+coeficiente de regressão.<br />
+   Tal lei pode ser relacionada com uma função custo e assim se obter o
+tamanho ótimo da parcela.</div>
+<p>Objetivos de um experimento</p>
+<div class="line-block">       Fornecer uma comparação válida dos
+efeitos de tratamentos;<br />
+       Fornecer informações válidas a respeito do relacionamento entre
+as variáveis de interesse.</div>
+<p>Exigências básicas</p>
+<div class="line-block">          As condições experimentais devem
+representar as condições do problema de interesse.<br />
+       As comparações dos tratamentos devem estar livres de outras
+possíveis explicações devido à presença de outras variáveis ({
+confundimento}).<br />
+       A comparação dos tratamentos deve ser feita com a menor
+influência de variação aleatória quanto possível.<br />
+       O nível de incerteza nas conclusões deve ser acessível.<br />
+       O experimento deve ser tão simples quanto possível.</div>
+<div class="float">
+<img src="figs/comunicacao.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<ul>
+<li>Resultado da colaboração entre Pesquisador e Estatístico.</li>
+<li><pre><code>   Deve ocorrer com um bom tempo antes da instalação do experimento.</code></pre></li>
+<li><pre><code>   Trabalho de investigação do estatístico.</code></pre></li>
+<li><pre><code>   Claro entendimento do problema a ser estudado. \\Por quê o experimento será realizado?</code></pre></li>
+<li>Estimação? Desejam-se estimadores não viesados e de variância
+mínima. . Teste de hipóteses? Desejam-se testes poderosos.</li>
+</ul>
+<p>Escolha do delineamento experimental</p>
+<p>Depende . do material experimental . da área experimental . das
+condições de coleta dos dados</p>
+<div class="line-block">      Relacionados aos { Princípios Básicos da
+Experimentação}, introduzidos por Fisher em 1935, são eles:</div>
+<p>. Repetição . Casualização . Controle local</p>
+<div class="line-block"> Justificativa: diminuir a variação não
+controlada e obter uma estimativa válida para tal.</div>
+<div class="float">
+<img src="figs/Fisher.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Repetição | Consiste da aplicação de cada tratamento a várias
+unidades experimentais, fornecendo assim uma medida da variação não
+controlada.</p>
+<div class="float">
+<img src="figs/repeticao.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Número de repetições</p>
+<p>. grau de precisão . quantidade de variabilidade presente no material
+experimental . fontes/material disponível . tamanho e forma da
+parcela</p>
+<p>Casualização</p>
+<div class="line-block">      Consiste em atribuir os tratamentos às
+unidades experimentais de tal modo que toda unidade tem a mesma
+probabilidade de receber cada tratamento.</div>
+<div class="float">
+<img src="figs/casualizacao.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<p>Motivos:</p>
+<pre><code>     Evitar efeitos sistemáticos.
+     {\it Exemplo:} Vasos com uma variedade recebem sol da manhã e vasos de outra variedade recebem sol da tarde.
+     Evitar viés de seleção.
+     {\it Exemplo:} Parcelas com maior fertilidade recebem os melhores tratamentos.
+     Evitar viés acidental.</code></pre>
+<div class="float">
+<embed src="figs/curvasdenivel.pdf" />
+<div class="figcaption">1</div>
+</div>
+<p>Fonte: Plantação de limão, Fazenda São Luiz, Fernando Prestes, SP</p>
+<div class="float">
+<img src="figs/controlelocal.jpg" alt="1" />
+<div class="figcaption">1</div>
+</div>
+<div class="line-block">  Os princípios da repetição e da casualização
+devem estar presentes em todos os experimentos. Entretanto, o princípio
+do controle local está presente apenas em experimentos que apresentam
+condições heterogêneas (ambiente, material, pessoal, etc.)</div>
+<div class="line-block">      Repetição + Casualização <span
+class="math inline">\(\Rightarrow\)</span> Delineamento Inteiramente
+Casualizado</div>
+<p><span class="math display">\[\Downarrow\]</span> Homogeneidade entre
+as parcelas</p>
+<p><span class="math display">\[\left.{array}{c}
+    \mbox{Repetição + }\\
+    \mbox{Casualização + }\\
+    \mbox{Controle Local}
+    {array}\right.\Rightarrow
+    \left\{{array}{c}
+    \mbox{ Delineamento Casualizado em Blocos}\\
+    \Downarrow\\
+    \mbox{Controle local em um sentido}\\ \\
+    \mbox{ Delineamento Quadrado Latino}\\
+    \Downarrow\\
+    \mbox{Controle local em dois sentidos}
+    {array}\right.\]</span></p>
+<p><span class="math display">\[\Downarrow\]</span></p>
+<pre><code>Heterogeneidade entre as parcelas</code></pre>
+<p><span class="math display">\[\Downarrow\]</span> Subgrupos de
+parcelas homogêneas</p>
+<p>Exemplo de um Delineamento Casualizado em Blocos</p>
+<div class="line-block">   O vírus da batata Y (PVY) é uma séria ameaça
+à produção de batata devido aos efeitos no rendimento e na qualidade dos
+tubérculos, em particular, devido à indução de doença de mancha anelar
+necrótica do tubérculo da batateira (PTNRD), tipicamente associada com
+cepas recombinantes de PVY. Essas cepas recombinantes têm se espalhado
+nos Estados Unidos nos últimos anos, embora as razões para essa
+disseminação contínua permaneçam obscuras. Para documentar e avaliar
+esta propagação entre 2011 e 2015, a composição da cepa de isolados de
+PVY que circulam na área de produção de batata da Columbia Basin foi
+determinada a partir de centenas de lotes de sementes de vários
+cultivares.<br />
+ Para abordar ainda mais a mudança na abundância de cepas, experimentos
+em casa de vegetação foram conduzidos (Funke et al, 2017, Plant Disease
+101:20-28,</div>
+<p><a href="https://doi.org/10.1094/PDIS-06-16-0901-RE">acesse
+aqui</a>.</p>
+<p>Exemplo de um Delineamento Casualizado em Blocos</p>
+<p>A, Croqui do experimento em casa de vegetação, mostrando as dimensões
+das parcelas e o delineamento casualizado em blocos. As letras indicam
+plantas de batata individuais: B = Russet Burbank, U = Umatilla Russet,
+R = Ranger Russet e A = Alturas. A cor de sombreamento designa a cepa do
+virus de batata Y (PVY) usada para inoculação: verde significa PVY O
+(isolado Tb60), azul significa PVY N-Wi (isolado N1), laranja significa
+PVY NTN (isolado HR1) e sem sombreamento significa não inoculado. B,
+Imagem da casa de vegetação antes da inoculação com isolados de PVY.
+<img src="figs/RCBD4.jpg" alt="1" /></p>
+<p>O processo experimental: fase de planejamento (BRIEN, 2019)</p>
+<div class="line-block">       Claro entendimento do problema a ser
+estudado e dos objetivos do experimento.<br />
+       Identificação das variáveis de interesse, incluindo a variável
+resposta (dependente), a variável explanatória (independente) e outras
+variáveis a serem controladas.<br />
+       Identificação das unidades de observação a serem utilizadas e a
+amostragem a ser feita para obtê-las.<br />
+       Identificação dos tratamentos a serem avaliados e do protocolo de
+aplicação dos mesmos.<br />
+       Alocação dos tratamentos às unidades experimentais por meio de um
+delineamento experimental.<br />
+       Identificação do processo de medida a ser utilizado.<br />
+       Identificação do ambiente experimental e como este será
+controlado.</div>
+<p>O processo experimental: condução, coleta de dados e conclusões</p>
+<ul>
+<li><pre><code>   Instalação do experimento;</code></pre></li>
+<li><pre><code>   Condução (memória);</code></pre></li>
+<li><pre><code>   Coleta dos dados (pessoal treinado);</code></pre></li>
+<li><pre><code>   Análise dos dados;</code></pre></li>
+<li>Interpretação dos resultados (pesquisador).</li>
+</ul>
+</div>
+</div>
 
 
 
