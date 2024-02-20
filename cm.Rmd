@@ -538,18 +538,13 @@ Como a soma dos produtos dos coeficientes é nula, os contrastes L2 e L3 são or
 Teste F: apresentação da decomposição do número de graus de liberdade de tratamentos em um grau de liberdade associado a cada contraste;
 Os contrastes devem ser estabelecidos antes da realização da análise. 
 
-```{r}
-# t_{L}^2 = ({\frac{\hat{L}}{\sqrt{\widehat{VAR}}(\hat{L})}})^2 =  {\frac{SQ_{L}/1}{\text{QMRes}}} = {\frac {\hat{L}^2}{{\frac{\sum_ia_i^2}{J}}\text{QMRes}}}
-```
+
 
 
 
 em que $\hat{L} = a_1\hat{\mu}_1 + a_2\hat{\mu}_2 + \ldots + a_I\hat{\mu}_I$, $\displaystyle{\widehat{\text{Var}}(\hat{L}) = \frac{\sum_{i=1}^I a_i^2}{J}QMRes}$ e todos os tratamentos apresentam o mesmo número de repetições, $J$.
 
-```{r}
-# $$\displaystyle{{\text{SQ}_L = \frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} = \frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}}.$$
-```
-  
+
 __Exemplo__ 
 |      Suponha um experimento instalado para avaliar a eficiência de fungicidas na produção de batatas. Foram utilizados quatro fungicidas + controle (sem aplicação de fungicida), sendo que os dois primeiros usam um modo de ação (modo A) e os dois últimos fungicidas outro modo de ação (modo B). Forme um grupo de contrastes ortogonais.
 
@@ -632,12 +627,7 @@ $\hat{L}_3: \hat{\mu}_C - \hat{\mu}_D = 26-31 = -5$
 
 Somas de quadrados: 
 
-\displaystyle{SQ_L = \frac{\hat{L}^2}{\frac{\sum_i a_i^2}{J}} = \frac{\left(J\times\hat{L}\right)^2}{J\times\sum_i a_i^2}}
 
-
-
-
-	
 $$SQ_{L_1} = {\frac{[5\times(23+27-26-31)]^2}{5\times[1^2 + 1^2 + (-1)^2 + (-1)^2]}} = 61,25$$ 
 	
 $$SQ_{L_2}  =  \frac{\left[5\times(23-27)\right]^2}{5\times \left[1^2 + (-1)^2\right]} = 40,00$$
